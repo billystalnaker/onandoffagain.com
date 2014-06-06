@@ -6,7 +6,7 @@
  *
  * @package		CodeIgniter
  * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc.
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -151,7 +151,7 @@ class CI_Config {
 			}
 			else
 			{
-				$this->config = array_merge_recursive($this->config, $config);
+				$this->config = array_merge($this->config, $config);
 			}
 
 			$this->is_loaded[] = $file_path;
