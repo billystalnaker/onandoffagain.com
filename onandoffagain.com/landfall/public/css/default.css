@@ -1,0 +1,11 @@
+.main_container{
+    margin-top:51px;
+}
+.form-center {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+.navbar-line-height-fix{
+    line-height: 20px !important;
+}
