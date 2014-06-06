@@ -2,9 +2,12 @@
 
 if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Welcome extends LF_Controller{
+class Home extends LF_Controller{
+	public function __construct(){
+		parent::__construct();
+	}
 	public function index(){
-		$content						 = $this->load->view('welcome', array(), true);
+		$content						 = $this->load->view('home', array(), true);
 		$this->content_array['content']	 = $content;
 		$this->load->view('tpl/structure', $this->content_array);
 	}
