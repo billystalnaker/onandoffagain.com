@@ -14,7 +14,7 @@ echo preg_replace('/\b(a)\s+([aeiou])/i', '$1n $2', $object);
     <?php
     foreach($_info as $field){
 	$field_id	 = $object.$field['Field'];
-	$display_name	 = ucwords(str_replace('_', '', $object))." ".ucwords(str_replace('_', '', $field['Field']));
+	$display_name	 = ucwords(str_replace('_', ' ', $object))." ".ucwords(str_replace('_', '', $field['Field']));
 	$type		 = $field['Type'];
 	$params		 = array(
 	    'name'		=>$field_id,
