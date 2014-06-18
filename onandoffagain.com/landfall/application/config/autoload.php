@@ -66,7 +66,7 @@ $autoload['libraries'] = array('Session', 'Permissions');
   |	$autoload['helper'] = array('url', 'file');
  */
 
-$autoload['helper'] = array('html_helper', 'url_helper');
+$autoload['helper'] = array('html_helper', 'url_helper', 'form_helper');
 
 
 /*

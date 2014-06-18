@@ -1,20 +1,24 @@
-<?php echo validation_errors();?>
+<?php if(!empty($message)){ ?>
+	<div id="message">
+		<?php echo $message; ?>
+	</div>
+<?php } ?>
 
 <?php
 $attributes = array(
-    'method'=>'POST',
-    'role'	=>'form',
-    'class'	=>'form-center'
+	'method'=>'POST',
+	'role'	=>'form',
+	'class'	=>'form-center'
 );
-echo form_open(site_url('account'), $attributes);
+echo form_open(current_url(), $attributes);
 ?>
 <h2 class="form-signin-heading">Please sign in</h2>
-<input name="username" type="username" class="form-control" placeholder="Username" autofocus="" value="<?php echo set_value('username');?>">
-<input name="password" type="password" class="form-control" placeholder="Password" value="<?php echo set_value('password');?>">
+<input name="login_identity" type="username" class="form-control" placeholder="Username" autofocus="" value="<?php echo set_value('username'); ?>">
+<input name="login_password" type="password" class="form-control" placeholder="Password" value="<?php echo set_value('password'); ?>">
 <label class="checkbox">
-    <input name="remember_me"type="checkbox" value="remember-me"> Remember me
+    <input name="remember_me" type="checkbox" value="1"  <?php echo set_checkbox('remember_me', 1); ?>> Remember me
 </label>
-<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+<input type="submit" name="login_user" class="btn btn-lg btn-primary btn-block" value="Sign In"/>
 <?php
 echo form_close();
 ?>

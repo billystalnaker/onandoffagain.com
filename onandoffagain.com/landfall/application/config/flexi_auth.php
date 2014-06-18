@@ -1,7 +1,6 @@
 <?php
 
-if(!defined('BASEPATH'))
-    exit('No direct script access allowed');
+if(!defined('BASEPATH')) exit('No direct script access allowed');
 /*
  * Name: flexi auth Config
  *
@@ -54,31 +53,31 @@ if(!defined('BASEPATH'))
  *
  * All columns are required.
  */
-$config['database']['user_acc']['table']				 = 'user_accounts';
-$config['database']['user_acc']['join']					 = 'user_accounts.uacc_id';
-$config['database']['user_acc']['columns']['id']			 = 'uacc_id';
-$config['database']['user_acc']['columns']['group_id']			 = 'uacc_group_fk';
-$config['database']['user_acc']['columns']['email']			 = 'uacc_email';
-$config['database']['user_acc']['columns']['username']			 = 'uacc_username';
-$config['database']['user_acc']['columns']['password']			 = 'uacc_password';
-$config['database']['user_acc']['columns']['ip_address']		 = 'uacc_ip_address';
-$config['database']['user_acc']['columns']['salt']			 = 'uacc_salt';
+$config['database']['user_acc']['table']							 = 'user_accounts';
+$config['database']['user_acc']['join']								 = 'user_accounts.uacc_id';
+$config['database']['user_acc']['columns']['id']					 = 'uacc_id';
+$config['database']['user_acc']['columns']['group_id']				 = 'uacc_group_fk';
+$config['database']['user_acc']['columns']['email']					 = 'uacc_email';
+$config['database']['user_acc']['columns']['username']				 = 'uacc_username';
+$config['database']['user_acc']['columns']['password']				 = 'uacc_password';
+$config['database']['user_acc']['columns']['ip_address']			 = 'uacc_ip_address';
+$config['database']['user_acc']['columns']['salt']					 = 'uacc_salt';
 $config['database']['user_acc']['columns']['activation_token']		 = 'uacc_activation_token';
 $config['database']['user_acc']['columns']['forgot_password_token']	 = 'uacc_forgotten_password_token';
-$config['database']['user_acc']['columns']['forgot_password_expire']	 = 'uacc_forgotten_password_expire';
+$config['database']['user_acc']['columns']['forgot_password_expire'] = 'uacc_forgotten_password_expire';
 $config['database']['user_acc']['columns']['update_email_token']	 = 'uacc_update_email_token';
-$config['database']['user_acc']['columns']['update_email']		 = 'uacc_update_email';
-$config['database']['user_acc']['columns']['active']			 = 'uacc_active';
-$config['database']['user_acc']['columns']['suspend']			 = 'uacc_suspend';
-$config['database']['user_acc']['columns']['failed_logins']		 = 'uacc_fail_login_attempts';
+$config['database']['user_acc']['columns']['update_email']			 = 'uacc_update_email';
+$config['database']['user_acc']['columns']['active']				 = 'uacc_active';
+$config['database']['user_acc']['columns']['suspend']				 = 'uacc_suspend';
+$config['database']['user_acc']['columns']['failed_logins']			 = 'uacc_fail_login_attempts';
 $config['database']['user_acc']['columns']['failed_login_ip']		 = 'uacc_fail_login_ip_address';
 $config['database']['user_acc']['columns']['failed_login_ban_date']	 = 'uacc_date_fail_login_ban';
 $config['database']['user_acc']['columns']['last_login_date']		 = 'uacc_date_last_login';
-$config['database']['user_acc']['columns']['date_added']		 = 'uacc_date_added';
+$config['database']['user_acc']['columns']['date_added']			 = 'uacc_date_added';
 
 // Custom columns can be added to the main user account table to enable library functions to handle additional custom data stored within the table.
 $config['database']['user_acc']['custom_columns'] = array(
-	### Example : 'date_modified', 'modified_user_id' etc.
+		### Example : 'date_modified', 'modified_user_id' etc.
 );
 
 ###++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++###
@@ -90,9 +89,9 @@ $config['database']['user_acc']['custom_columns'] = array(
  *
  * All columns are required.
  */
-$config['database']['user_group']['table']			 = 'user_groups';
-$config['database']['user_group']['join']			 = 'user_groups.ugrp_id';
-$config['database']['user_group']['columns']['id']		 = 'ugrp_id';
+$config['database']['user_group']['table']					 = 'user_groups';
+$config['database']['user_group']['join']					 = 'user_groups.ugrp_id';
+$config['database']['user_group']['columns']['id']			 = 'ugrp_id';
 $config['database']['user_group']['columns']['name']		 = 'ugrp_name';
 $config['database']['user_group']['columns']['description']	 = 'ugrp_desc';
 $config['database']['user_group']['columns']['admin']		 = 'ugrp_admin';
@@ -108,9 +107,9 @@ $config['database']['user_group']['columns']['admin']		 = 'ugrp_admin';
  *
  * All columns are required.
  */
-$config['database']['user_privileges']['table']			 = 'user_privileges';
-$config['database']['user_privileges']['columns']['id']		 = 'upriv_id';
-$config['database']['user_privileges']['columns']['name']	 = 'upriv_name';
+$config['database']['user_privileges']['table']					 = 'user_privileges';
+$config['database']['user_privileges']['columns']['id']			 = 'upriv_id';
+$config['database']['user_privileges']['columns']['name']		 = 'upriv_name';
 $config['database']['user_privileges']['columns']['description'] = 'upriv_desc';
 
 /**
@@ -119,9 +118,9 @@ $config['database']['user_privileges']['columns']['description'] = 'upriv_desc';
  *
  * All columns are required.
  */
-$config['database']['user_privilege_users']['table']			 = 'user_privilege_users';
-$config['database']['user_privilege_users']['columns']['id']		 = 'upriv_users_id';
-$config['database']['user_privilege_users']['columns']['user_id']	 = 'upriv_users_uacc_fk';
+$config['database']['user_privilege_users']['table']					 = 'user_privilege_users';
+$config['database']['user_privilege_users']['columns']['id']			 = 'upriv_users_id';
+$config['database']['user_privilege_users']['columns']['user_id']		 = 'upriv_users_uacc_fk';
 $config['database']['user_privilege_users']['columns']['privilege_id']	 = 'upriv_users_upriv_fk';
 
 /**
@@ -130,9 +129,9 @@ $config['database']['user_privilege_users']['columns']['privilege_id']	 = 'upriv
  *
  * All columns are required.
  */
-$config['database']['user_privilege_groups']['table']			 = 'user_privilege_groups';
-$config['database']['user_privilege_groups']['columns']['id']		 = 'upriv_groups_id';
-$config['database']['user_privilege_groups']['columns']['group_id']	 = 'upriv_groups_ugrp_fk';
+$config['database']['user_privilege_groups']['table']					 = 'user_privilege_groups';
+$config['database']['user_privilege_groups']['columns']['id']			 = 'upriv_groups_id';
+$config['database']['user_privilege_groups']['columns']['group_id']		 = 'upriv_groups_ugrp_fk';
 $config['database']['user_privilege_groups']['columns']['privilege_id']	 = 'upriv_groups_upriv_fk';
 
 ###++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++###
@@ -144,12 +143,12 @@ $config['database']['user_privilege_groups']['columns']['privilege_id']	 = 'upri
  *
  * All columns are required.
  */
-$config['database']['user_sess']['table']		 = 'user_login_sessions';
-$config['database']['user_sess']['join']		 = 'user_login_sessions.usess_uacc_fk';
+$config['database']['user_sess']['table']				 = 'user_login_sessions';
+$config['database']['user_sess']['join']				 = 'user_login_sessions.usess_uacc_fk';
 $config['database']['user_sess']['columns']['user_id']	 = 'usess_uacc_fk';
 $config['database']['user_sess']['columns']['series']	 = 'usess_series';
 $config['database']['user_sess']['columns']['token']	 = 'usess_token';
-$config['database']['user_sess']['columns']['date']	 = 'usess_login_date';
+$config['database']['user_sess']['columns']['date']		 = 'usess_login_date';
 
 ###++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++###
 // Custom User Related Tables
@@ -192,7 +191,7 @@ $config['database']['user_sess']['columns']['date']	 = 'usess_login_date';
  *
  * Note: The column MUST be either the ['email'] or ['username'] columns from the main user account table, and must contain a unique column name.
  */
-$config['database']['settings']['primary_identity_col'] = 'uacc_email';
+$config['database']['settings']['primary_identity_col'] = 'uacc_username';
 
 /**
  * User Identity Columns
@@ -301,7 +300,7 @@ $config['sessions']['math_captcha'] = 'math_captcha';
  * 'Remember me' Cookies
  * Used to store 'Remember me' data to automatically log a user in next time they visit the website.
  */
-$config['cookies']['user_id']		 = 'user_id';
+$config['cookies']['user_id']			 = 'user_id';
 $config['cookies']['remember_series']	 = 'remember_series';
 $config['cookies']['remember_token']	 = 'remember_token';
 
@@ -510,7 +509,7 @@ $config['security']['login_attempt_time_ban'] = 10;
  * !IMPORTANT: Obtain YOUR OWN reCAPTCHA keys from http://www.google.com/recaptcha.
  */
 $config['security']['recaptcha_public_key']	 = 'ENTER_RECAPTCHA_PUBLIC_KEY_HERE';
-$config['security']['recaptcha_private_key']	 = 'ENTER_RECAPTCHA_PRIVATE_KEY_HERE';
+$config['security']['recaptcha_private_key'] = 'ENTER_RECAPTCHA_PRIVATE_KEY_HERE';
 
 /**
  * Set the theme of the reCAPTCHA. For custom theming, see https://developers.google.com/recaptcha/docs/customization
@@ -669,43 +668,43 @@ $config['messages']['delimiters']['error_suffix'] = '</p>';
  * Do NOT set public or admin message = $config['messages']['target_user']['account_creation_successful'] = FALSE;
  */
 // Account Creation
-$config['messages']['target_user']['account_creation_successful']		 = 'public';
-$config['messages']['target_user']['account_creation_unsuccessful']		 = 'public';
+$config['messages']['target_user']['account_creation_successful']			 = 'public';
+$config['messages']['target_user']['account_creation_unsuccessful']			 = 'public';
 $config['messages']['target_user']['account_creation_duplicate_email']		 = 'public';
 $config['messages']['target_user']['account_creation_duplicate_username']	 = 'public';
 $config['messages']['target_user']['account_creation_duplicate_identity']	 = 'public';
 $config['messages']['target_user']['account_creation_insufficient_data']	 = 'public';
 
 // Password
-$config['messages']['target_user']['password_invalid']			 = 'public';
-$config['messages']['target_user']['password_change_successful']	 = 'public';
-$config['messages']['target_user']['password_change_unsuccessful']	 = 'public';
-$config['messages']['target_user']['password_token_invalid']		 = 'public';
-$config['messages']['target_user']['email_new_password_successful']	 = 'public';
+$config['messages']['target_user']['password_invalid']					 = 'public';
+$config['messages']['target_user']['password_change_successful']		 = 'public';
+$config['messages']['target_user']['password_change_unsuccessful']		 = 'public';
+$config['messages']['target_user']['password_token_invalid']			 = 'public';
+$config['messages']['target_user']['email_new_password_successful']		 = 'public';
 $config['messages']['target_user']['email_forgot_password_successful']	 = 'public';
 $config['messages']['target_user']['email_forgot_password_unsuccessful'] = 'public';
 
 // Activation
-$config['messages']['target_user']['activate_successful']			 = 'public';
-$config['messages']['target_user']['activate_unsuccessful']			 = 'public';
-$config['messages']['target_user']['deactivate_successful']			 = 'public';
-$config['messages']['target_user']['deactivate_unsuccessful']			 = 'public';
-$config['messages']['target_user']['activation_email_successful']		 = 'public';
-$config['messages']['target_user']['activation_email_unsuccessful']		 = 'public';
-$config['messages']['target_user']['account_requires_activation']		 = 'public';
-$config['messages']['target_user']['account_already_activated']			 = 'public';
+$config['messages']['target_user']['activate_successful']					 = 'public';
+$config['messages']['target_user']['activate_unsuccessful']					 = 'public';
+$config['messages']['target_user']['deactivate_successful']					 = 'public';
+$config['messages']['target_user']['deactivate_unsuccessful']				 = 'public';
+$config['messages']['target_user']['activation_email_successful']			 = 'public';
+$config['messages']['target_user']['activation_email_unsuccessful']			 = 'public';
+$config['messages']['target_user']['account_requires_activation']			 = 'public';
+$config['messages']['target_user']['account_already_activated']				 = 'public';
 $config['messages']['target_user']['email_activation_email_successful']		 = 'public';
 $config['messages']['target_user']['email_activation_email_unsuccessful']	 = 'public';
 
 // Login / Logout
-$config['messages']['target_user']['login_successful']		 = 'public';
-$config['messages']['target_user']['login_unsuccessful']	 = 'public';
-$config['messages']['target_user']['logout_successful']		 = 'public';
-$config['messages']['target_user']['login_details_invalid']	 = 'public';
+$config['messages']['target_user']['login_successful']			 = 'public';
+$config['messages']['target_user']['login_unsuccessful']		 = 'public';
+$config['messages']['target_user']['logout_successful']			 = 'public';
+$config['messages']['target_user']['login_details_invalid']		 = 'public';
 $config['messages']['target_user']['captcha_answer_invalid']	 = 'public';
 $config['messages']['target_user']['login_attempts_exceeded']	 = 'public';
-$config['messages']['target_user']['login_session_expired']	 = 'public';
-$config['messages']['target_user']['account_suspended']		 = 'public';
+$config['messages']['target_user']['login_session_expired']		 = 'public';
+$config['messages']['target_user']['account_suspended']			 = 'public';
 
 // Account Changes
 $config['messages']['target_user']['update_successful']		 = 'public';
