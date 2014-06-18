@@ -7,17 +7,10 @@ class Home extends LF_Controller{
 		parent::__construct();
 	}
 	public function index(){
-		$this->login();
+		$this->home();
 	}
-	public function login(){
-		$content				 = $this->load->view('account/login', array(), true);
-		$this->data['content']	 = $content;
-		if($this->input->post('login_user')){
-			$this->load->model('flexi_auth_model');
-			$this->flexi_auth_model->login($this->input->post('login_identity'), $this->input->post('login_password'), $this->input->post('remember_me'));
-		}
-		$this->data['message'] = (!isset($this->data['message']))?$this->session->flashdata('message'):$this->data['message'];
-
+	public function home(){
+		$this->data['content'] = $this->load->view('home', $this->data, true);
 		$this->load->view('tpl/structure', $this->data);
 	}
 }

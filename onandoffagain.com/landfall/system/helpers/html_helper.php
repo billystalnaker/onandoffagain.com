@@ -315,7 +315,7 @@ if(!function_exists('script_tag')){
 	function script_tag($src = '', $type = 'text/javascript'){
 		$CI = & get_instance();
 
-		$script = '<link ';
+		$script = '<script ';
 
 		if(is_array($src)){
 			foreach($src as $k=> $v){
@@ -326,7 +326,7 @@ if(!function_exists('script_tag')){
 				}
 			}
 
-			$script .= "/>";
+			$script .= "></script>";
 		}else{
 			if(strpos($src, '://') !== FALSE){
 				$script .= 'src="'.$src.'" ';
@@ -337,7 +337,7 @@ if(!function_exists('script_tag')){
 			$script .= 'type="'.$type.'" ';
 
 
-			$script .= '/></script>';
+			$script .= '></script>';
 		}
 
 
