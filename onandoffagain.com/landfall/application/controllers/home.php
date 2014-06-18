@@ -7,9 +7,9 @@ class Home extends LF_Controller{
 		parent::__construct();
 	}
 	public function index(){
-		$content						 = $this->load->view('home', array(), true);
-		$this->content_array['content']	 = $content;
-		$this->load->view('tpl/structure', $this->content_array);
+		$content				 = $this->load->view('home', array(), true);
+		$this->data['content']	 = $content;
+		$this->load->view('tpl/structure', $this->data);
 	}
 }
 
