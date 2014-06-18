@@ -1,7 +1,6 @@
 <?php
 
-if(!defined('BASEPATH'))
-    exit('No direct script access allowed');
+if(!defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -30,35 +29,30 @@ if(!defined('BASEPATH'))
  * @link		http://codeigniter.com/user_guide/general/controllers.html
  */
 class LF_Controller extends CI_Controller{
-
-    private $data = array();
-    private $class_key;
-    private $task_key;
-
-    /**
-     * Constructor
-     */
-    public function __construct(){
-	parent::__construct();
-	$this->auth = new stdClass;
-
-	$is_logged		 = $this->permissions->is_logged();
-	$this->data['is_logged'] = $is_logged;
-	$this->class_key	 = $this->router->fetch_class();
-	$this->task_key		 = $this->router->fetch_method();
-	$this->data['class_key'] = $this->class_key;
-	$this->data['task_key']	 = $this->task_key;
-	if(!$is_logged && $this->class_key != 'account'){
-	    // redirect('account');
+	private $data = array();
+	private $class_key;
+	private $task_key;
+	/**
+	 * Constructor
+	 */
+	public function __construct(){
+		parent::__construct();
+		//$this->auth = new stdClass;
+		$this->data['is_logged'] = $is_logged;
+		$this->class_key		 = $this->router->fetch_class();
+		$this->task_key			 = $this->router->fetch_method();
+		$this->data['class_key'] = $this->class_key;
+		$this->data['task_key']	 = $this->task_key;
+		if(!$is_logged && $this->class_key != 'account'){
+			// redirect('account');
+		}
+		$has_access = true;
+		if(!$has_access){
+			log_message('info', "User {user id goes here} tried to access  {$this->class_key}_$this->task_key.");
+			redirect('restricted');
+		}
+		log_message('debug', "Controller Class ({$this->class_key}_$this->task_key) Initialized");
 	}
-	$has_access = $this->permissions->check_access($this->class_key.$this->task_key);
-
-	if(!$has_access){
-	    log_message('info', "User {user id goes here} tried to access  {$this->class_key}_$this->task_key.");
-	    redirect('restricted');
-	}
-	log_message('debug', "Controller Class ({$this->class_key}_$this->task_key) Initialized");
-    }
 }
 
 // END Controller class
