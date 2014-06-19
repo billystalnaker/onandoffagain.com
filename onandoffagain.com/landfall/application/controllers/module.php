@@ -2,28 +2,34 @@
 
 if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Objects extends LF_Controller{
+class Module extends LF_Controller{
 	public function __construct(){
 		parent::__construct();
 	}
-	public function add($object = NULL){
-		if(is_null($object)){
-			show_error('Invalid URL, please contact your system administrator if you feel this is an error.');
-		}elseif(!$this->load->model('object')->set_table($object)->table_exists()){
-			show_error('Invalid URL, please contact your system administrator if you feel this is an error.');
+	public function users($action = NULL, $id = NULL){
+		$action	 = (!is_null($action))?$action:'view';
+		$id		 = (!is_null($id))?$id:0;
+		if($action === 'edit' && $id <= 0){
+			$action = 'view';
 		}
-		$this->load->helper('object_helper');
-		$this->load->config('form_validation');
-		$this->load->library('form_validation', $this->config)
-				->set_error_delimiters('<div class="alert alert-danger form-signin">', '</div>');
-		$info						 = $this->object->describe();
-		$this->data['object_info']	 = array('object'=>$object, 'info'=>$info); //get the field info);
-		if($this->form_validation->run() == FALSE){
-			$this->data['content'] = $this->load->view('objects/add', $this->data, true);
-		}else{
-			$this->object->add($params);
-			redirect("objects/view/$object/{$params['id']}");
-			//insert module into db redirect to display page of that module
+		if((false && !$this->flexi_auth->is_privileged('Users')) || (false && !$this->flexi_auth->is_privileged(ucfirst($action).' Users'))){
+			//set flashdata saying you dont have access to this
+			redirect('home/dashboard');
+		}
+		$this->load->model('modules');
+		switch($action){
+			case 'add':
+				break;
+			case 'edit':
+				break;
+			case 'view':
+			default:
+				$this->modules->get_users();
+				// Set any returned status/error messages.
+				$this->data['message'] = (!isset($this->data['message']))?$this->session->flashdata('message'):$this->data['message'];
+
+				$this->data['content'] = $this->load->view('module/user/view', $this->data, true);
+				break;
 		}
 		$this->load->view('tpl/structure', $this->data);
 	}

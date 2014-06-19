@@ -19,6 +19,12 @@ $scripts[4]['src']	 = '/js/sb-admin.js';
 $scripts[5]['type']	 = 'application/javascript';
 $scripts[5]['src']	 = '/js/jquery.metisMenu.js';
 
+$scripts[6]['type']	 = 'application/javascript';
+$scripts[6]['src']	 = '/js/jquery.dataTables.js';
+
+$scripts[7]['type']	 = 'application/javascript';
+$scripts[7]['src']	 = '/js/dataTables.bootstrap.js';
+
 $links				 = array();
 $links[0]['href']	 = '/css/bootstrap.css';
 $links[0]['rel']	 = 'stylesheet';
@@ -35,6 +41,11 @@ $links[2]['type']	 = 'application/css';
 $links[3]['href']	 = '/css/sb-admin.css';
 $links[3]['rel']	 = 'stylesheet';
 $links[3]['type']	 = 'application/css';
+
+$links[4]['href']	 = '/css/dataTables.bootstrap.css';
+$links[4]['rel']	 = 'stylesheet';
+$links[4]['type']	 = 'application/css';
+
 
 $config = array(
 	'scripts'	=>$scripts,
