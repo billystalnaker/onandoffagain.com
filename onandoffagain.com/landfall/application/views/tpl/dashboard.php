@@ -28,26 +28,7 @@ if($is_logged){
 										<div class="panel-body">
 											<h3>View Users</h3>
 											<p>Here you can view users.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec viverra risus sit amet fermentum molestie. Donec hendrerit venenatis velit ultrices bibendum. Nunc elementum sem ipsum, et pellentesque quam dapibus sit amet. Nulla sed adipiscing orci. Nulla lacinia feugiat magna eu porta. </p>
-											<a href="<?php echo site_url('objec/users/action/view'); ?>">View Users</a>
-										</div>
-									</div>
-								</div>
-								<?php
-							}
-							if(true || $this->flexi_auth->is_privileged('Edit Users')){
-								?>
-								<div class="panel panel-default">
-
-									<div class="panel-heading">
-										<h4 class="panel-title">
-											<a data-toggle="collapse" data-parent="#user_accordion" href="#edit_user_panel">Edit</a>
-										</h4>
-									</div>
-									<div class="panel-collapse collapse" id="edit_user_panel">
-										<div class="panel-body">
-											<h3>Edit Users</h3>
-											<p>Here you can edit users.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec viverra risus sit amet fermentum molestie. Donec hendrerit venenatis velit ultrices bibendum. Nunc elementum sem ipsum, et pellentesque quam dapibus sit amet. Nulla sed adipiscing orci. Nulla lacinia feugiat magna eu porta. </p>
-											<a href="<?php echo site_url('module/users/action/edit'); ?>">Edit Users</a>
+											<a href="<?php echo site_url('module/users/action/view'); ?>">View Users</a>
 										</div>
 									</div>
 								</div>
@@ -107,25 +88,6 @@ if($is_logged){
 								</div>
 								<?php
 							}
-							if(true || $this->flexi_auth->is_privileged('Edit Groups')){
-								?>
-								<div class="panel panel-default">
-
-									<div class="panel-heading">
-										<h4 class="panel-title">
-											<a data-toggle="collapse" data-parent="#group_accordion" href="#edit_group_panel">Edit</a>
-										</h4>
-									</div>
-									<div class="panel-collapse collapse" id="edit_group_panel">
-										<div class="panel-body">
-											<h3>Edit Groups</h3>
-											<p>Here you can edit groups.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec viverra risus sit amet fermentum molestie. Donec hendrerit venenatis velit ultrices bibendum. Nunc elementum sem ipsum, et pellentesque quam dapibus sit amet. Nulla sed adipiscing orci. Nulla lacinia feugiat magna eu porta. </p>
-											<a href="<?php echo site_url('module/groups/action/edit'); ?>">Edit groups</a>
-										</div>
-									</div>
-								</div>
-								<?php
-							}
 							if(true || $this->flexi_auth->is_privileged('Add Groups')){
 								?>
 								<div class="panel panel-default">
@@ -140,6 +102,60 @@ if($is_logged){
 											<h3>Add Groups</h3>
 											<p>Here you can add groups.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec viverra risus sit amet fermentum molestie. Donec hendrerit venenatis velit ultrices bibendum. Nunc elementum sem ipsum, et pellentesque quam dapibus sit amet. Nulla sed adipiscing orci. Nulla lacinia feugiat magna eu porta. </p>
 											<a href="<?php echo site_url('module/groups/action/add'); ?>">Add groups</a>
+										</div>
+									</div>
+								</div>
+								<?php
+							}
+							?>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><?php
+	}
+	if(true || $this->flexi_auth->is_privileged('Privileges')){
+		?>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Privileges
+					</div>
+					<div class="panel-body">
+						<div class="panel-group" id="privileges_accordion"><?php
+							if(true || $this->flexi_auth->is_privileged('View Privilegess')){
+								?>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h4 class="panel-title">
+											<a data-toggle="collapse" data-parent="#privileges_accordion" href="#view_privileges_panel" >View</a>
+										</h4>
+									</div>
+									<div class="panel-collapse collapse in" id="view_privileges_panel">
+										<div class="panel-body">
+											<h3>View Privileges</h3>
+											<p>Here you can view privileges.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec viverra risus sit amet fermentum molestie. Donec hendrerit venenatis velit ultrices bibendum. Nunc elementum sem ipsum, et pellentesque quam dapibus sit amet. Nulla sed adipiscing orci. Nulla lacinia feugiat magna eu porta. </p>
+											<a href="<?php echo site_url('module/privileges/action/view'); ?>">View Privileges</a>
+										</div>
+									</div>
+								</div>
+								<?php
+							}
+							if(true || $this->flexi_auth->is_privileged('Add Privilegess')){
+								?>
+								<div class="panel panel-default">
+
+									<div class="panel-heading">
+										<h4 class="panel-title">
+											<a data-toggle="collapse" data-parent="#privileges_accordion" href="#add_privileges_panel">Add</a>
+										</h4>
+									</div>
+									<div class="panel-collapse collapse" id="add_privileges_panel">
+										<div class="panel-body">
+											<h3>Add Privileges</h3>
+											<p>Here you can add privileges.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec viverra risus sit amet fermentum molestie. Donec hendrerit venenatis velit ultrices bibendum. Nunc elementum sem ipsum, et pellentesque quam dapibus sit amet. Nulla sed adipiscing orci. Nulla lacinia feugiat magna eu porta. </p>
+											<a href="<?php echo site_url('module/privileges/action/add'); ?>">Add Privileges</a>
 										</div>
 									</div>
 								</div>
@@ -173,27 +189,8 @@ if($is_logged){
 									<div class="panel-collapse collapse in" id="view_st_light_panel">
 										<div class="panel-body">
 											<h3>View St. Lights</h3>
-											<p>Here you can view st_lights.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec viverra risus sit amet fermentum molestie. Donec hendrerit venenatis velit ultrices bibendum. Nunc elementum sem ipsum, et pellentesque quam dapibus sit amet. Nulla sed adipiscing orci. Nulla lacinia feugiat magna eu porta. </p>
-											<a href="<?php echo site_url('module/st_lights/action/view'); ?>">View st_lights</a>
-										</div>
-									</div>
-								</div>
-								<?php
-							}
-							if(true || $this->flexi_auth->is_privileged('Edit St_lights')){
-								?>
-								<div class="panel panel-default">
-
-									<div class="panel-heading">
-										<h4 class="panel-title">
-											<a data-toggle="collapse" data-parent="#st_light_accordion" href="#edit_st_light_panel">Edit</a>
-										</h4>
-									</div>
-									<div class="panel-collapse collapse" id="edit_st_light_panel">
-										<div class="panel-body">
-											<h3>Edit St. Lights</h3>
-											<p>Here you can edit st_lights.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec viverra risus sit amet fermentum molestie. Donec hendrerit venenatis velit ultrices bibendum. Nunc elementum sem ipsum, et pellentesque quam dapibus sit amet. Nulla sed adipiscing orci. Nulla lacinia feugiat magna eu porta. </p>
-											<a href="<?php echo site_url('module/st_lights/action/edit'); ?>">Edit st_lights</a>
+											<p>Here you can view St. Lights.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec viverra risus sit amet fermentum molestie. Donec hendrerit venenatis velit ultrices bibendum. Nunc elementum sem ipsum, et pellentesque quam dapibus sit amet. Nulla sed adipiscing orci. Nulla lacinia feugiat magna eu porta. </p>
+											<a href="<?php echo site_url('module/st_lights/action/view'); ?>">View St. Lights</a>
 										</div>
 									</div>
 								</div>
@@ -211,8 +208,8 @@ if($is_logged){
 									<div class="panel-collapse collapse" id="add_st_light_panel">
 										<div class="panel-body">
 											<h3>Add St. Lights</h3>
-											<p>Here you can add st_lights.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec viverra risus sit amet fermentum molestie. Donec hendrerit venenatis velit ultrices bibendum. Nunc elementum sem ipsum, et pellentesque quam dapibus sit amet. Nulla sed adipiscing orci. Nulla lacinia feugiat magna eu porta. </p>
-											<a href="<?php echo site_url('module/st_lights/action/add'); ?>">Add st_lights</a>
+											<p>Here you can add St. Lights.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec viverra risus sit amet fermentum molestie. Donec hendrerit venenatis velit ultrices bibendum. Nunc elementum sem ipsum, et pellentesque quam dapibus sit amet. Nulla sed adipiscing orci. Nulla lacinia feugiat magna eu porta. </p>
+											<a href="<?php echo site_url('module/st_lights/action/add'); ?>">Add St. Lights</a>
 										</div>
 									</div>
 								</div>

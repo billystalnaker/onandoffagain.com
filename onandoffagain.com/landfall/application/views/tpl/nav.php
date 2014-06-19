@@ -15,7 +15,7 @@
 				<li><a href="#about">About</a></li>
 				<li><a href="#contact">Contact</a></li>
 <?php if($is_logged){ ?>
-																				<li><a class="sign-out" href="#" data-alt="<?php echo site_url('account/logout'); ?>">Logout</a></li>
+																							<li><a class="sign-out" href="#" data-alt="<?php echo site_url('account/logout'); ?>">Logout</a></li>
 <?php } ?>
 			</ul>
 		</div>
@@ -267,13 +267,10 @@
 					<li>
 						<a href="#"><i class="fa fa-user fa-fw"></i> Users<span class="fa arrow"></span></a>
 						<ul class="nav nav-second-level">
+							<?php if($this->flexi_auth->is_privileged('Editt'))  ?>
 							<li>
 								<a href="<?php echo site_url('module/users/action/add'); ?>">Add</a>
 							</li>
-							<li>
-								<a href="<?php echo site_url('module/users/action/edit'); ?>">Edit</a>
-							</li>
-
 							<li>
 								<a href="<?php echo site_url('module/users/action/view'); ?>">View</a>
 							</li>
@@ -288,26 +285,29 @@
 								<a href="<?php echo site_url('module/groups/action/add'); ?>">Add</a>
 							</li>
 							<li>
-								<a href="<?php echo site_url('module/groups/action/edit'); ?>">Edit</a>
-							</li>
-
-							<li>
 								<a href="<?php echo site_url('module/groups/action/view'); ?>">View</a>
 							</li>
 						</ul>
 						<!-- /.nav-second-level -->
 					</li>
-
+					<li>
+						<a href="#"><i class="fa fa-key fa-fw"></i> Privileges<span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level">
+							<li>
+								<a href="<?php echo site_url('module/privileges/action/add'); ?>">Add</a>
+							</li>
+							<li>
+								<a href="<?php echo site_url('module/privileges/action/view'); ?>">View</a>
+							</li>
+						</ul>
+						<!-- /.nav-second-level -->
+					</li>
 					<li>
 						<a href="#"><i class="fa fa-lightbulb-o fa-fw"></i> St. Lights<span class="fa arrow"></span></a>
 						<ul class="nav nav-second-level">
 							<li>
 								<a href="<?php echo site_url('module/st_lights/action/add'); ?>">Add</a>
 							</li>
-							<li>
-								<a href="<?php echo site_url('module/st_lights/action/edit'); ?>">Edit</a>
-							</li>
-
 							<li>
 								<a href="<?php echo site_url('module/st_lights/action/view'); ?>">View</a>
 							</li>
