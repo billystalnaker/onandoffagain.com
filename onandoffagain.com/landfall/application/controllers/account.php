@@ -21,7 +21,7 @@ class Account extends LF_Controller{
 			$remember_me = $this->input->post('remember_me');
 			//var_dump($this->flexi_auth->is_logged_in(), $this->flexi_auth_model->login($identity, $password, $remember_me));
 			if($this->flexi_auth_model->login($identity, $password, $remember_me)){
-				redirect('home/home');
+				redirect('home/dashboard');
 			}else{
 				$this->data['message'] = "We're sorry, we could not log you in with those credentials.";
 			}

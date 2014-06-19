@@ -7,10 +7,14 @@ class Home extends LF_Controller{
 		parent::__construct();
 	}
 	public function index(){
-		$this->home();
+		$this->dashboard();
 	}
 	public function home(){
 		$this->data['content'] = $this->load->view('home', $this->data, true);
+		$this->load->view('tpl/structure', $this->data);
+	}
+	public function dashboard(){
+		$this->data['content'] = $this->load->view('tpl/dashboard', $this->data, true);
 		$this->load->view('tpl/structure', $this->data);
 	}
 }

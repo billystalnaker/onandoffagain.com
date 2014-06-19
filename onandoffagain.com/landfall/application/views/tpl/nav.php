@@ -15,7 +15,7 @@
 				<li><a href="#about">About</a></li>
 				<li><a href="#contact">Contact</a></li>
 <?php if($is_logged){ ?>
-														<li><a class="sign-out" href="#" data-alt="<?php echo site_url('account/logout'); ?>">Logout</a></li>
+																				<li><a class="sign-out" href="#" data-alt="<?php echo site_url('account/logout'); ?>">Logout</a></li>
 <?php } ?>
 			</ul>
 		</div>
@@ -37,6 +37,7 @@
 
 	<?php if($is_logged){ ?>
 		<ul class="nav navbar-top-links navbar-right">
+			<!--
 			<li class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 					<i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
@@ -85,9 +86,9 @@
 						</a>
 					</li>
 				</ul>
-				<!-- /.dropdown-messages -->
-			</li>
-			<!-- /.dropdown -->
+			<!-- /.dropdown-messages
+		</li>
+			<!-- /.dropdown
 			<li class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 					<i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
@@ -164,9 +165,9 @@
 						</a>
 					</li>
 				</ul>
-				<!-- /.dropdown-tasks -->
-			</li>
-			<!-- /.dropdown -->
+			<!-- /.dropdown-tasks
+		</li>
+			<!-- /.dropdown
 			<li class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 					<i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
@@ -224,8 +225,8 @@
 						</a>
 					</li>
 				</ul>
-				<!-- /.dropdown-alerts -->
-			</li>
+			<!-- /.dropdown-alerts
+		</li>
 			<!-- /.dropdown -->
 			<li class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -237,7 +238,7 @@
 					<li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
 					</li>
 					<li class="divider"></li>
-					<li><a class="sign-out" href="#" data-alt="<?php echo site_url('account/logout'); ?>"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+					<li><a class="sign-out" href="javascript:void(0);" data-alt="<?php echo site_url('account/logout'); ?>"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
 					</li>
 				</ul>
 				<!-- /.dropdown-user -->
@@ -253,7 +254,7 @@
 						<div class="input-group custom-search-form">
 							<input type="text" class="form-control" placeholder="Search...">
 							<span class="input-group-btn">
-								<button class="btn btn-default" type="button">
+								<button class="btn btn-default" style="padding:9px 12px;" type="button">
 									<i class="fa fa-search"></i>
 								</button>
 							</span>
@@ -261,20 +262,59 @@
 						<!-- /input-group -->
 					</li>
 					<li>
-						<a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+						<a href="<?php echo site_url('home/dashboard'); ?>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
 					</li>
 					<li>
-						<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
+						<a href="#"><i class="fa fa-user fa-fw"></i> Users<span class="fa arrow"></span></a>
 						<ul class="nav nav-second-level">
 							<li>
-								<a href="flot.html">Flot Charts</a>
+								<a href="<?php echo site_url('module/users/action/add'); ?>">Add</a>
 							</li>
 							<li>
-								<a href="morris.html">Morris.js Charts</a>
+								<a href="<?php echo site_url('module/users/action/edit'); ?>">Edit</a>
+							</li>
+
+							<li>
+								<a href="<?php echo site_url('module/users/action/view'); ?>">View</a>
 							</li>
 						</ul>
 						<!-- /.nav-second-level -->
 					</li>
+
+					<li>
+						<a href="#"><i class="fa fa-group fa-fw"></i> Groups<span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level">
+							<li>
+								<a href="<?php echo site_url('module/groups/action/add'); ?>">Add</a>
+							</li>
+							<li>
+								<a href="<?php echo site_url('module/groups/action/edit'); ?>">Edit</a>
+							</li>
+
+							<li>
+								<a href="<?php echo site_url('module/groups/action/view'); ?>">View</a>
+							</li>
+						</ul>
+						<!-- /.nav-second-level -->
+					</li>
+
+					<li>
+						<a href="#"><i class="fa fa-lightbulb-o fa-fw"></i> St. Lights<span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level">
+							<li>
+								<a href="<?php echo site_url('module/st_lights/action/add'); ?>">Add</a>
+							</li>
+							<li>
+								<a href="<?php echo site_url('module/st_lights/action/edit'); ?>">Edit</a>
+							</li>
+
+							<li>
+								<a href="<?php echo site_url('module/st_lights/action/view'); ?>">View</a>
+							</li>
+						</ul>
+						<!-- /.nav-second-level -->
+					</li>
+					<!--
 					<li>
 						<a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
 					</li>
@@ -300,50 +340,50 @@
 								<a href="grid.html">Grid</a>
 							</li>
 						</ul>
-						<!-- /.nav-second-level -->
-					</li>
-					<li>
-						<a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
-						<ul class="nav nav-second-level">
-							<li>
-								<a href="#">Second Level Item</a>
-							</li>
-							<li>
-								<a href="#">Second Level Item</a>
-							</li>
-							<li>
-								<a href="#">Third Level <span class="fa arrow"></span></a>
-								<ul class="nav nav-third-level">
-									<li>
-										<a href="#">Third Level Item</a>
-									</li>
-									<li>
-										<a href="#">Third Level Item</a>
-									</li>
-									<li>
-										<a href="#">Third Level Item</a>
-									</li>
-									<li>
-										<a href="#">Third Level Item</a>
-									</li>
-								</ul>
-								<!-- /.nav-third-level -->
-							</li>
-						</ul>
-						<!-- /.nav-second-level -->
-					</li>
-					<li>
-						<a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
-						<ul class="nav nav-second-level">
-							<li>
-								<a href="blank.html">Blank Page</a>
-							</li>
-							<li>
-								<a href="login.html">Login Page</a>
-							</li>
-						</ul>
-						<!-- /.nav-second-level -->
-					</li>
+					<!-- /.nav-second-level
+				</li>
+				<li>
+					<a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
+					<ul class="nav nav-second-level">
+						<li>
+							<a href="#">Second Level Item</a>
+						</li>
+						<li>
+							<a href="#">Second Level Item</a>
+						</li>
+						<li>
+							<a href="#">Third Level <span class="fa arrow"></span></a>
+							<ul class="nav nav-third-level">
+								<li>
+									<a href="#">Third Level Item</a>
+								</li>
+								<li>
+									<a href="#">Third Level Item</a>
+								</li>
+								<li>
+									<a href="#">Third Level Item</a>
+								</li>
+								<li>
+									<a href="#">Third Level Item</a>
+								</li>
+							</ul>
+					<!-- /.nav-third-level
+				</li>
+			</ul>
+					<!-- /.nav-second-level
+				</li>
+				<li>
+					<a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
+					<ul class="nav nav-second-level">
+						<li>
+							<a href="blank.html">Blank Page</a>
+						</li>
+						<li>
+							<a href="login.html">Login Page</a>
+						</li>
+					</ul>
+					<!-- /.nav-second-level
+				</li> -->
 				</ul>
 				<!-- /#side-menu -->
 			</div>
