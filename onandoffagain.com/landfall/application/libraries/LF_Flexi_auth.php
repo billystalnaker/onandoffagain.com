@@ -996,6 +996,12 @@ class LF_Flexi_auth extends LF_Flexi_auth_lite{
 	public function get_user_array($sql_select = FALSE, $sql_where = FALSE){
 		return $this->CI->flexi_auth_model->get_users($sql_select, $sql_where)->result_array();
 	}
+	public function get_user_group_array($sql_select = FALSE, $sql_where = FALSE){
+		return $this->CI->flexi_auth_model->get_groups($sql_select, $sql_where)->result_array();
+	}
+	public function get_privilege_array($sql_select = FALSE, $sql_where = FALSE){
+		return $this->CI->flexi_auth_model->get_privileges($sql_select, $sql_where)->result_array();
+	}
 }
 
 /* End of file flexi_auth.php */

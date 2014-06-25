@@ -18,21 +18,40 @@ class Modules extends LF_Model{
 	 */
 	function get_users(){
 		// Select user data to be displayed.
-		$sql_select = array(
+		$sql_select			 = array(
 			$this->flexi_auth->db_column('user_acc', 'id'),
 			$this->flexi_auth->db_column('user_acc', 'email'),
+			$this->flexi_auth->db_column('user_acc', 'username'),
 			$this->flexi_auth->db_column('user_group', 'name'),
-			$this->flexi_auth->db_column('user_acc', 'upro_first_name'),
-			$this->flexi_auth->db_column('user_acc', 'upro_last_name'),
+			'upro_first_name',
+			'upro_last_name',
 		);
 		$this->flexi_auth->sql_select($sql_select);
-
-		// For this example, prevent any 'Master Admin' users (User group id of 3) being listed to non 'Master Admin' users.
-//		if(!$this->flexi_auth->in_group('Master Admin')){
-//			$sql_where[$this->flexi_auth->db_column('user_group', 'id').' !='] = 3;
-//			$this->flexi_auth->sql_where($sql_where);
-//		}
-		$this->data['users'] = $this->flexi_auth->get_users_array();
+		$this->data['users'] = $this->flexi_auth->get_user_array();
+	}
+	function get_user_groups(){
+		// Select user data to be displayed.
+		$sql_select				 = array(
+			$this->flexi_auth->db_column('user_group', 'id'),
+			$this->flexi_auth->db_column('user_group', 'name'),
+			$this->flexi_auth->db_column('user_group', 'description'),
+		);
+		$this->flexi_auth->sql_select($sql_select);
+		$this->data['groups']	 = $this->flexi_auth->get_user_group_array();
+	}
+	function get_privileges(){
+		// Select user data to be displayed.
+		$sql_select					 = array(
+			$this->flexi_auth->db_column('user_privilege', 'id'),
+			$this->flexi_auth->db_column('user_privilege', 'name'),
+			$this->flexi_auth->db_column('user_privilege', 'description'),
+		);
+		$this->flexi_auth->sql_select($sql_select);
+		$this->data['privileges']	 = $this->flexi_auth->get_privilege_array();
+	}
+	public function get_user_group($group_id){
+		$filters			 = array($this->flexi_auth->db_column('user_group', 'id')=>$group_id);
+		$this->data['group'] = array_shift($this->flexi_auth->get_user_group_array(FALSE, $filters));
 	}
 	/**
 	 *
@@ -93,13 +112,10 @@ class Modules extends LF_Model{
 
 		// Set validation rules.
 		$validation_rules = array(
-			array('field'=>'update_first_name', 'label'=>'First Name', 'rules'=>'required'),
-			array('field'=>'update_last_name', 'label'=>'Last Name', 'rules'=>'required'),
-			array('field'=>'update_phone_number', 'label'=>'Phone Number', 'rules'=>'required'),
-			array('field'=>'update_newsletter', 'label'=>'Newsletter', 'rules'=>'integer'),
-			array('field'=>'update_email_address', 'label'=>'Email Address', 'rules'=>'required|valid_email|identity_available['.$user_id.']'),
-			array('field'=>'update_username', 'label'=>'Username', 'rules'=>'min_length[4]|identity_available['.$user_id.']'),
-			array('field'=>'update_group', 'label'=>'User Group', 'rules'=>'required|integer')
+			array('field'=>'update_user_first_name', 'label'=>'First Name', 'rules'=>'required'),
+			array('field'=>'update_user_last_name', 'label'=>'Last Name', 'rules'=>'required'),
+			array('field'=>'update_user_email', 'label'=>'Email Address', 'rules'=>'required|valid_email'),
+			array('field'=>'update_user_group_id', 'label'=>'User Group', 'rules'=>'required|integer')
 		);
 
 		$this->form_validation->set_rules($validation_rules);
@@ -111,14 +127,10 @@ class Modules extends LF_Model{
 			// be able to identify the correct custom data row.
 			// In this example, the primary key column and value is 'upro_id' => $user_id.
 			$profile_data = array(
-				'upro_id'											=>$user_id,
-				'upro_first_name'									=>$this->input->post('update_first_name'),
-				'upro_last_name'									=>$this->input->post('update_last_name'),
-				'upro_phone'										=>$this->input->post('update_phone_number'),
-				'upro_newsletter'									=>$this->input->post('update_newsletter'),
-				$this->flexi_auth->db_column('user_acc', 'email')	=>$this->input->post('update_email_address'),
-				$this->flexi_auth->db_column('user_acc', 'username')=>$this->input->post('update_username'),
-				$this->flexi_auth->db_column('user_acc', 'group_id')=>$this->input->post('update_group')
+				'upro_first_name'									=>$this->input->post('update_user_first_name'),
+				'upro_last_name'									=>$this->input->post('update_user_last_name'),
+				$this->flexi_auth->db_column('user_acc', 'email')	=>$this->input->post('update_user_email'),
+				$this->flexi_auth->db_column('user_acc', 'group_id')=>$this->input->post('update_user_group_id')
 			);
 
 			// If we were only updating profile data (i.e. no email, username or group included), we could use the 'update_custom_user_data()' function instead.
@@ -128,7 +140,7 @@ class Modules extends LF_Model{
 			$this->session->set_flashdata('message', $this->flexi_auth->get_messages());
 
 			// Redirect user.
-			redirect('auth_admin/manage_user_accounts');
+			redirect('module/users/view');
 		}
 
 		return FALSE;
@@ -180,7 +192,6 @@ class Modules extends LF_Model{
 		// Set validation rules.
 		$validation_rules = array(
 			array('field'=>'insert_group_name', 'label'=>'Group Name', 'rules'=>'required'),
-			array('field'=>'insert_group_admin', 'label'=>'Admin Status', 'rules'=>'integer')
 		);
 
 		$this->form_validation->set_rules($validation_rules);
@@ -188,16 +199,15 @@ class Modules extends LF_Model{
 		if($this->form_validation->run()){
 			// Get user group data from input.
 			$group_name	 = $this->input->post('insert_group_name');
-			$group_desc	 = $this->input->post('insert_group_description');
-			$group_admin = ($this->input->post('insert_group_admin'))?1:0;
+			$group_desc	 = $this->input->post('insert_group_desc');
 
-			$this->flexi_auth->insert_group($group_name, $group_desc, $group_admin);
+			$this->flexi_auth->insert_group($group_name, $group_desc, 0);
 
 			// Save any public or admin status or error messages to CI's flash session data.
 			$this->session->set_flashdata('message', $this->flexi_auth->get_messages());
 
 			// Redirect user.
-			redirect('auth_admin/manage_user_groups');
+			redirect('module/groups/view');
 		}
 	}
 	/**
@@ -210,7 +220,6 @@ class Modules extends LF_Model{
 		// Set validation rules.
 		$validation_rules = array(
 			array('field'=>'update_group_name', 'label'=>'Group Name', 'rules'=>'required'),
-			array('field'=>'update_group_admin', 'label'=>'Admin Status', 'rules'=>'integer')
 		);
 
 		$this->form_validation->set_rules($validation_rules);
@@ -219,8 +228,7 @@ class Modules extends LF_Model{
 			// Get user group data from input.
 			$data = array(
 				$this->flexi_auth->db_column('user_group', 'name')			=>$this->input->post('update_group_name'),
-				$this->flexi_auth->db_column('user_group', 'description')	=>$this->input->post('update_group_description'),
-				$this->flexi_auth->db_column('user_group', 'admin')			=>$this->input->post('update_group_admin')
+				$this->flexi_auth->db_column('user_group', 'description')	=>$this->input->post('update_group_desc'),
 			);
 
 			$this->flexi_auth->update_group($group_id, $data);
@@ -229,7 +237,7 @@ class Modules extends LF_Model{
 			$this->session->set_flashdata('message', $this->flexi_auth->get_messages());
 
 			// Redirect user.
-			redirect('auth_admin/manage_user_groups');
+			redirect('module/groups/view');
 		}
 	}
 	###++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++###
@@ -272,7 +280,7 @@ class Modules extends LF_Model{
 		if($this->form_validation->run()){
 			// Get privilege data from input.
 			$privilege_name	 = $this->input->post('insert_privilege_name');
-			$privilege_desc	 = $this->input->post('insert_privilege_description');
+			$privilege_desc	 = $this->input->post('insert_privilege_desc');
 
 			$this->flexi_auth->insert_privilege($privilege_name, $privilege_desc);
 
@@ -280,7 +288,7 @@ class Modules extends LF_Model{
 			$this->session->set_flashdata('message', $this->flexi_auth->get_messages());
 
 			// Redirect user.
-			redirect('auth_admin/manage_privileges');
+			redirect('module/privilege/view');
 		}
 	}
 	/**
@@ -386,7 +394,7 @@ class Modules extends LF_Model{
 			array('field'=>'insert_user_user_name', 'label'=>'User Name', 'rules'=>'is_unique[user_accounts.uacc_username]'),
 			array('field'=>'insert_user_first_name', 'label'=>'First Name', 'rules'=>''),
 			array('field'=>'insert_user_last_name', 'label'=>'Last Name', 'rules'=>''),
-			array('field'=>'insert_user_email', 'label'=>'Email', 'rules'=>'required'),
+			array('field'=>'insert_user_email', 'label'=>'Email', 'rules'=>'required|valid_email'),
 			array('field'=>'insert_user_group_id', 'label'=>'Group ID', 'rules'=>'integer|required'),
 			array('field'=>'insert_user_password', 'label'=>'Password', 'rules'=>'required'),
 			array('field'=>'insert_user_password_confirmation', 'label'=>'Password Confirmation', 'rules'=>'matches[insert_user_password]')
@@ -408,7 +416,7 @@ class Modules extends LF_Model{
 			);
 			if($this->flexi_auth->insert_user($user_email, $user_name, $password, $user_data, $user_group_id, true)){
 				// Redirect user.
-				redirect();
+				redirect('module/users/view');
 			}
 			// Save any public or admin status or error messages to CI's flash session data.
 			$this->session->set_flashdata('message', $this->flexi_auth->get_messages());
