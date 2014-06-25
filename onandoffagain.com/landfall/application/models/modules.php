@@ -22,17 +22,27 @@ class Modules extends LF_Model{
 			$this->flexi_auth->db_column('user_acc', 'id'),
 			$this->flexi_auth->db_column('user_acc', 'email'),
 			$this->flexi_auth->db_column('user_group', 'name'),
-			'upro_first_name',
-			'upro_last_name',
+			$this->flexi_auth->db_column('user_acc', 'upro_first_name'),
+			$this->flexi_auth->db_column('user_acc', 'upro_last_name'),
 		);
 		$this->flexi_auth->sql_select($sql_select);
 
 		// For this example, prevent any 'Master Admin' users (User group id of 3) being listed to non 'Master Admin' users.
-		if(!$this->flexi_auth->in_group('Master Admin')){
-			$sql_where[$this->flexi_auth->db_column('user_group', 'id').' !='] = 3;
-			$this->flexi_auth->sql_where($sql_where);
-		}
+//		if(!$this->flexi_auth->in_group('Master Admin')){
+//			$sql_where[$this->flexi_auth->db_column('user_group', 'id').' !='] = 3;
+//			$this->flexi_auth->sql_where($sql_where);
+//		}
 		$this->data['users'] = $this->flexi_auth->get_users_array();
+	}
+	/**
+	 *
+	 * @param type $user_id
+	 * @return mixed Returns single user
+	 */
+	function get_user($user_id){
+		$filters[$this->flexi_auth->db_column('user_acc', 'id')] = $user_id;
+
+		$this->data['user'] = array_shift($this->flexi_auth->get_users_query(FALSE, $filters)->result_array());
 	}
 	/**
 	 * update_user_accounts
@@ -363,7 +373,48 @@ class Modules extends LF_Model{
 		// Redirect user.
 		redirect('auth_admin/manage_user_groups');
 	}
+	/**
+	 * insert_user
+	 * Inserts a new user .
+	 */
+	function insert_user(){
+		$this->load->library('form_validation');
+
+		// Set validation rules.
+		$validation_rules = array(
+			array('field'=>'insert_user_user_name', 'label'=>'User Name', 'rules'=>'required'),
+			array('field'=>'insert_user_user_name', 'label'=>'User Name', 'rules'=>'is_unique[user_accounts.uacc_username]'),
+			array('field'=>'insert_user_first_name', 'label'=>'First Name', 'rules'=>''),
+			array('field'=>'insert_user_last_name', 'label'=>'Last Name', 'rules'=>''),
+			array('field'=>'insert_user_email', 'label'=>'Email', 'rules'=>'required'),
+			array('field'=>'insert_user_group_id', 'label'=>'Group ID', 'rules'=>'integer|required'),
+			array('field'=>'insert_user_password', 'label'=>'Password', 'rules'=>'required'),
+			array('field'=>'insert_user_password_confirmation', 'label'=>'Password Confirmation', 'rules'=>'matches[insert_user_password]')
+		);
+
+		$this->form_validation->set_rules($validation_rules);
+
+		if($this->form_validation->run()){
+			// Get user group data from input.
+			$user_name		 = $this->input->post('insert_user_user_name');
+			$user_email		 = $this->input->post('insert_user_email');
+			$password		 = $this->input->post('insert_user_password');
+			$user_first_name = $this->input->post('insert_user_first_name');
+			$user_last_name	 = $this->input->post('insert_user_last_name');
+			$user_group_id	 = $this->input->post('insert_group_id');
+			$user_data		 = array(
+				'upro_first_name'	=>$user_first_name,
+				'upro_last_name'	=>$user_last_name,
+			);
+			if($this->flexi_auth->insert_user($user_email, $user_name, $password, $user_data, $user_group_id, true)){
+				// Redirect user.
+				redirect();
+			}
+			// Save any public or admin status or error messages to CI's flash session data.
+			$this->session->set_flashdata('message', $this->flexi_auth->get_messages());
+		}
+	}
 }
 
 /* End of file demo_auth_admin_model.php */
-/* Location: ./application/models/demo_auth_admin_model.php */
+	/* Location: ./application/models/demo_auth_admin_model.php */

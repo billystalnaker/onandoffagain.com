@@ -49,6 +49,7 @@ class LF_Controller extends CI_Controller{
 		$this->load->library('flexi_auth');
 		$is_logged				 = $this->flexi_auth->is_logged_in();
 		$this->data['is_logged'] = $is_logged;
+		$this->data['message']	 = $this->session->flashdata('message');
 		if(!$is_logged && $this->class_key != 'account'){
 			redirect('account');
 		}

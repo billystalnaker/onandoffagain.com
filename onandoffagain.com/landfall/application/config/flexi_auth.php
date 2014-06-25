@@ -77,6 +77,8 @@ $config['database']['user_acc']['columns']['date_added']			 = 'uacc_date_added';
 
 // Custom columns can be added to the main user account table to enable library functions to handle additional custom data stored within the table.
 $config['database']['user_acc']['custom_columns'] = array(
+	'upro_first_name',
+	'upro_last_name',
 		### Example : 'date_modified', 'modified_user_id' etc.
 );
 
@@ -201,7 +203,7 @@ $config['database']['settings']['primary_identity_col'] = 'uacc_username';
  *
  * Note: The only valid columns are the users email address (Default column name 'uacc_email') or username (Default column name'uacc_username').
  */
-$config['database']['settings']['identity_cols'] = array('uacc_email', 'uacc_username');
+$config['database']['settings']['identity_cols'] = array('uacc_username');
 
 /**
  * User Search Query Columns
@@ -209,7 +211,7 @@ $config['database']['settings']['identity_cols'] = array('uacc_email', 'uacc_use
  *
  * Note: Any column within the user main account, custom or group tables can be added to array
  */
-$config['database']['settings']['search_user_cols'] = array('uacc_email');
+$config['database']['settings']['search_user_cols'] = array('uacc_username');
 
 /**
  * Database Date / Time Format

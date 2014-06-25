@@ -28,7 +28,7 @@ if($is_logged){
 										<div class="panel-body">
 											<h3>View Users</h3>
 											<p>Here you can view users.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec viverra risus sit amet fermentum molestie. Donec hendrerit venenatis velit ultrices bibendum. Nunc elementum sem ipsum, et pellentesque quam dapibus sit amet. Nulla sed adipiscing orci. Nulla lacinia feugiat magna eu porta. </p>
-											<a href="<?php echo site_url('module/users/action/view'); ?>">View Users</a>
+											<a href="<?php echo site_url('module/users/view'); ?>">View Users</a>
 										</div>
 									</div>
 								</div>
@@ -47,7 +47,7 @@ if($is_logged){
 										<div class="panel-body">
 											<h3>Add Users</h3>
 											<p>Here you can add users.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec viverra risus sit amet fermentum molestie. Donec hendrerit venenatis velit ultrices bibendum. Nunc elementum sem ipsum, et pellentesque quam dapibus sit amet. Nulla sed adipiscing orci. Nulla lacinia feugiat magna eu porta. </p>
-											<a href="<?php echo site_url('module/users/action/add'); ?>">Add Users</a>
+											<a href="<?php echo site_url('module/users/add'); ?>">Add Users</a>
 										</div>
 									</div>
 								</div>
@@ -82,7 +82,7 @@ if($is_logged){
 										<div class="panel-body">
 											<h3>View Groups</h3>
 											<p>Here you can view groups.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec viverra risus sit amet fermentum molestie. Donec hendrerit venenatis velit ultrices bibendum. Nunc elementum sem ipsum, et pellentesque quam dapibus sit amet. Nulla sed adipiscing orci. Nulla lacinia feugiat magna eu porta. </p>
-											<a href="<?php echo site_url('module/groups/action/view'); ?>">View groups</a>
+											<a href="<?php echo site_url('module/groups/view'); ?>">View groups</a>
 										</div>
 									</div>
 								</div>
@@ -101,7 +101,7 @@ if($is_logged){
 										<div class="panel-body">
 											<h3>Add Groups</h3>
 											<p>Here you can add groups.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec viverra risus sit amet fermentum molestie. Donec hendrerit venenatis velit ultrices bibendum. Nunc elementum sem ipsum, et pellentesque quam dapibus sit amet. Nulla sed adipiscing orci. Nulla lacinia feugiat magna eu porta. </p>
-											<a href="<?php echo site_url('module/groups/action/add'); ?>">Add groups</a>
+											<a href="<?php echo site_url('module/groups/add'); ?>">Add groups</a>
 										</div>
 									</div>
 								</div>
@@ -136,7 +136,7 @@ if($is_logged){
 										<div class="panel-body">
 											<h3>View Privileges</h3>
 											<p>Here you can view privileges.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec viverra risus sit amet fermentum molestie. Donec hendrerit venenatis velit ultrices bibendum. Nunc elementum sem ipsum, et pellentesque quam dapibus sit amet. Nulla sed adipiscing orci. Nulla lacinia feugiat magna eu porta. </p>
-											<a href="<?php echo site_url('module/privileges/action/view'); ?>">View Privileges</a>
+											<a href="<?php echo site_url('module/privileges/view'); ?>">View Privileges</a>
 										</div>
 									</div>
 								</div>
@@ -155,7 +155,7 @@ if($is_logged){
 										<div class="panel-body">
 											<h3>Add Privileges</h3>
 											<p>Here you can add privileges.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec viverra risus sit amet fermentum molestie. Donec hendrerit venenatis velit ultrices bibendum. Nunc elementum sem ipsum, et pellentesque quam dapibus sit amet. Nulla sed adipiscing orci. Nulla lacinia feugiat magna eu porta. </p>
-											<a href="<?php echo site_url('module/privileges/action/add'); ?>">Add Privileges</a>
+											<a href="<?php echo site_url('module/privileges/add'); ?>">Add Privileges</a>
 										</div>
 									</div>
 								</div>
@@ -190,7 +190,7 @@ if($is_logged){
 										<div class="panel-body">
 											<h3>View St. Lights</h3>
 											<p>Here you can view St. Lights.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec viverra risus sit amet fermentum molestie. Donec hendrerit venenatis velit ultrices bibendum. Nunc elementum sem ipsum, et pellentesque quam dapibus sit amet. Nulla sed adipiscing orci. Nulla lacinia feugiat magna eu porta. </p>
-											<a href="<?php echo site_url('module/st_lights/action/view'); ?>">View St. Lights</a>
+											<a href="<?php echo site_url('module/st_lights/view'); ?>">View St. Lights</a>
 										</div>
 									</div>
 								</div>
@@ -209,7 +209,7 @@ if($is_logged){
 										<div class="panel-body">
 											<h3>Add St. Lights</h3>
 											<p>Here you can add St. Lights.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec viverra risus sit amet fermentum molestie. Donec hendrerit venenatis velit ultrices bibendum. Nunc elementum sem ipsum, et pellentesque quam dapibus sit amet. Nulla sed adipiscing orci. Nulla lacinia feugiat magna eu porta. </p>
-											<a href="<?php echo site_url('module/st_lights/action/add'); ?>">Add St. Lights</a>
+											<a href="<?php echo site_url('module/st_lights/add'); ?>">Add St. Lights</a>
 										</div>
 									</div>
 								</div>

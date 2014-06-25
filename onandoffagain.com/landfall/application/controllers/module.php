@@ -10,23 +10,37 @@ class Module extends LF_Controller{
 		$action	 = (!is_null($action))?$action:'view';
 		$id		 = (!is_null($id))?$id:0;
 		if($action === 'edit' && $id <= 0){
-			$action = 'view';
+			//set flashdata sayign you must have id in order to edit
+			redirect('module/users/view');
 		}
 		if((false && !$this->flexi_auth->is_privileged('Users')) || (false && !$this->flexi_auth->is_privileged(ucfirst($action).' Users'))){
 			//set flashdata saying you dont have access to this
 			redirect('home/dashboard');
 		}
 		$this->load->model('modules');
+
+		$filters			 = array('ugrp_id !='=>1);
+		$groups				 = $this->flexi_auth->get_groups(FALSE, $filters)->result_array();
+		$group_options		 = array();
+		$group_options['']	 = 'Please Select...';
+		foreach($groups as $group){
+			$group_options[$group['ugrp_id']] = $group['ugrp_name'];
+		}
+		$this->data['group_options'] = $group_options;
 		switch($action){
 			case 'add':
+				$this->modules->insert_user();
+				$this->data['content']	 = $this->load->view('module/user/add', $this->data, true);
 				break;
 			case 'edit':
+				$this->modules->get_user($id);
+				$this->data['content']	 = $this->load->view('module/user/edit', $this->data, true);
 				break;
 			case 'view':
 			default:
 				$this->modules->get_users();
 				// Set any returned status/error messages.
-				$this->data['message'] = (!isset($this->data['message']))?$this->session->flashdata('message'):$this->data['message'];
+				$this->data['message']	 = (!isset($this->data['message']))?$this->session->flashdata('message'):$this->data['message'];
 
 				$this->data['content'] = $this->load->view('module/user/view', $this->data, true);
 				break;

@@ -475,7 +475,6 @@ class LF_Flexi_auth extends LF_Flexi_auth_lite{
 	 */
 	public function insert_user($email, $username = FALSE, $password, $user_data, $group_id = FALSE, $activate = FALSE){
 		$user_id = $this->CI->flexi_auth_model->insert_user($email, $username, $password, $user_data, $group_id);
-
 		if($user_id){
 			// Check whether to auto activate the user.
 			if($activate){
@@ -869,6 +868,23 @@ class LF_Flexi_auth extends LF_Flexi_auth_lite{
 	}
 	###++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++###
 	/**
+	 * get_users_group_query
+	 * Gets records from the user group table typically for a filtered set of users.
+	 *
+	 * @return object
+	 * @author Rob Hussey
+	 */
+	public function get_users_query($sql_select = FALSE, $sql_where = FALSE){
+		$sql_select = ($sql_select)?$sql_select:$this->CI->auth->tbl_user_account.'.*';
+
+		if(!$sql_where){
+			$sql_where = array($this->CI->auth->tbl_col_user_account['id']=>$this->CI->auth->session_data[$this->CI->auth->session_name['user_id']]);
+		}
+
+		return $this->CI->flexi_auth_model->get_users($sql_select, $sql_where);
+	}
+	###++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++###
+	/**
 	 * get_unactivated_users_query
 	 * Get users that have not activated their account within a set time period.
 	 *
@@ -976,6 +992,9 @@ class LF_Flexi_auth extends LF_Flexi_auth_lite{
 		}
 
 		$this->CI->auth->template_data = $data;
+	}
+	public function get_user_array($sql_select = FALSE, $sql_where = FALSE){
+		return $this->CI->flexi_auth_model->get_users($sql_select, $sql_where)->result_array();
 	}
 }
 

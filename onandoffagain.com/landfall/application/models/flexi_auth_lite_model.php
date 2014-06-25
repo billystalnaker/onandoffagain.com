@@ -179,7 +179,7 @@ class Flexi_auth_lite_model extends LF_Model{
 		else if($sql_group_by){
 			$this->db->group_by($sql_group_by);
 		}
-
+		var_dump($sql_select, $sql_where);
 		// Set any custom defined SQL statements.
 		$this->set_custom_sql_to_db($sql_select, $sql_where);
 
