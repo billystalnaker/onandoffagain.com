@@ -49,15 +49,14 @@ class Modules extends LF_Model{
 		$this->flexi_auth->sql_select($sql_select);
 		$this->data['privileges']	 = $this->flexi_auth->get_privilege_array();
 	}
-	public function get_user_group($group_id){
+	function get_user_group($group_id){
 		$filters			 = array($this->flexi_auth->db_column('user_group', 'id')=>$group_id);
 		$this->data['group'] = array_shift($this->flexi_auth->get_user_group_array(FALSE, $filters));
 	}
-	/**
-	 *
-	 * @param type $user_id
-	 * @return mixed Returns single user
-	 */
+	function get_privilege($privilege_id){
+		$filters				 = array($this->flexi_auth->db_column('user_privileges', 'id')=>$privilege_id);
+		$this->data['privilege'] = array_shift($this->flexi_auth->get_privilege_array(FALSE, $filters));
+	}
 	function get_user($user_id){
 		$filters[$this->flexi_auth->db_column('user_acc', 'id')] = $user_id;
 
@@ -146,6 +145,66 @@ class Modules extends LF_Model{
 		return FALSE;
 	}
 	/**
+	 * update_user_group
+	 * Updates a specific user group.
+	 */
+	function update_user_group($group_id){
+		$this->load->library('form_validation');
+
+		// Set validation rules.
+		$validation_rules = array(
+			array('field'=>'update_group_name', 'label'=>'Group Name', 'rules'=>'required'),
+		);
+
+		$this->form_validation->set_rules($validation_rules);
+
+		if($this->form_validation->run()){
+			// Get user group data from input.
+			$data = array(
+				$this->flexi_auth->db_column('user_group', 'name')			=>$this->input->post('update_group_name'),
+				$this->flexi_auth->db_column('user_group', 'description')	=>$this->input->post('update_group_desc'),
+			);
+
+			$this->flexi_auth->update_group($group_id, $data);
+
+			// Save any public or admin status or error messages to CI's flash session data.
+			$this->session->set_flashdata('message', $this->flexi_auth->get_messages());
+
+			// Redirect user.
+			redirect('module/groups/view');
+		}
+	}
+	/**
+	 * update_privilege
+	 * Updates a specific privilege.
+	 */
+	function update_privilege($privilege_id){
+		$this->load->library('form_validation');
+
+		// Set validation rules.
+		$validation_rules = array(
+			array('field'=>'update_privilege_name', 'label'=>'Privilege Name', 'rules'=>'required')
+		);
+
+		$this->form_validation->set_rules($validation_rules);
+
+		if($this->form_validation->run()){
+			// Get privilege data from input.
+			$data = array(
+				$this->flexi_auth->db_column('user_privileges', 'name')			=>$this->input->post('update_privilege_name'),
+				$this->flexi_auth->db_column('user_privileges', 'description')	=>$this->input->post('update_privilege_desc')
+			);
+
+			$this->flexi_auth->update_privilege($privilege_id, $data);
+
+			// Save any public or admin status or error messages to CI's flash session data.
+			$this->session->set_flashdata('message', $this->flexi_auth->get_messages());
+
+			// Redirect user.
+			redirect('module/privileges/view');
+		}
+	}
+	/**
 	 * delete_users
 	 * Delete all user accounts that have not been activated X days since they were registered.
 	 */
@@ -210,36 +269,6 @@ class Modules extends LF_Model{
 			redirect('module/groups/view');
 		}
 	}
-	/**
-	 * update_user_group
-	 * Updates a specific user group.
-	 */
-	function update_user_group($group_id){
-		$this->load->library('form_validation');
-
-		// Set validation rules.
-		$validation_rules = array(
-			array('field'=>'update_group_name', 'label'=>'Group Name', 'rules'=>'required'),
-		);
-
-		$this->form_validation->set_rules($validation_rules);
-
-		if($this->form_validation->run()){
-			// Get user group data from input.
-			$data = array(
-				$this->flexi_auth->db_column('user_group', 'name')			=>$this->input->post('update_group_name'),
-				$this->flexi_auth->db_column('user_group', 'description')	=>$this->input->post('update_group_desc'),
-			);
-
-			$this->flexi_auth->update_group($group_id, $data);
-
-			// Save any public or admin status or error messages to CI's flash session data.
-			$this->session->set_flashdata('message', $this->flexi_auth->get_messages());
-
-			// Redirect user.
-			redirect('module/groups/view');
-		}
-	}
 	###++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++###
 	// Privileges
 	###++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++###
@@ -289,36 +318,6 @@ class Modules extends LF_Model{
 
 			// Redirect user.
 			redirect('module/privilege/view');
-		}
-	}
-	/**
-	 * update_privilege
-	 * Updates a specific privilege.
-	 */
-	function update_privilege($privilege_id){
-		$this->load->library('form_validation');
-
-		// Set validation rules.
-		$validation_rules = array(
-			array('field'=>'update_privilege_name', 'label'=>'Privilege Name', 'rules'=>'required')
-		);
-
-		$this->form_validation->set_rules($validation_rules);
-
-		if($this->form_validation->run()){
-			// Get privilege data from input.
-			$data = array(
-				$this->flexi_auth->db_column('user_privileges', 'name')			=>$this->input->post('update_privilege_name'),
-				$this->flexi_auth->db_column('user_privileges', 'description')	=>$this->input->post('update_privilege_description')
-			);
-
-			$this->flexi_auth->update_privilege($privilege_id, $data);
-
-			// Save any public or admin status or error messages to CI's flash session data.
-			$this->session->set_flashdata('message', $this->flexi_auth->get_messages());
-
-			// Redirect user.
-			redirect('auth_admin/manage_privileges');
 		}
 	}
 	/**
