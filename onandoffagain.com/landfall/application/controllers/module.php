@@ -153,4 +153,38 @@ class Module extends LF_Controller {
         $this->load->view('tpl/structure', $this->data);
     }
 
+	public function user_privileges($id = NULL){
+		$id = (!is_null($id))?$id:0;
+		if($id <= 0){
+			//set flashdata sayign you must have id in order to edit
+			redirect('module/users/view');
+		}
+		if((false && !$this->flexi_auth->is_privileged('User Privileges'))){
+			//set flashdata saying you dont have access to this
+			redirect('home/dashboard');
+		}
+		$this->load->model('modules');
+		$this->data['message']	 = (!isset($this->data['message']))?$this->session->flashdata('message'):$this->data['message'];
+		$this->modules->update_user_privileges($id);
+		$this->data['content']	 = $this->load->view('module/user_privilege/edit', $this->data, true);
+
+		$this->load->view('tpl/structure', $this->data);
+	}
+	public function group_privileges($id = NULL){
+		$id = (!is_null($id))?$id:0;
+		if($id <= 0){
+			//set flashdata sayign you must have id in order to edit
+			redirect('module/users/view');
+		}
+		if((false && !$this->flexi_auth->is_privileged('Group Privileges'))){
+			//set flashdata saying you dont have access to this
+			redirect('home/dashboard');
+		}
+		$this->load->model('modules');
+		$this->data['message']	 = (!isset($this->data['message']))?$this->session->flashdata('message'):$this->data['message'];
+		$this->modules->update_group_privileges($id);
+		$this->data['content']	 = $this->load->view('module/group_privilege/edit', $this->data, true);
+
+		$this->load->view('tpl/structure', $this->data);
+	}
 }
