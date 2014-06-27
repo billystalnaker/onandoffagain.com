@@ -66,40 +66,42 @@ class Modules extends LF_Model{
 	 * update_user_accounts
 	 * The function loops through all POST data checking the 'Suspend' and 'Delete' checkboxes that have been checked, and updates/deletes the user accounts accordingly.
 	 */
-	function update_user_accounts(){
+	function update_users(){
 		// If user has privileges, delete users.
-		if($this->flexi_auth->is_privileged('Delete Users')){
-			if($delete_users = $this->input->post('delete_user')){
-				foreach($delete_users as $user_id=> $delete){
-					// Note: As the 'delete_user' input is a checkbox, it will only be present in the $_POST data if it has been checked,
-					// therefore we don't need to check the submitted value.
-					$this->flexi_auth->delete_user($user_id);
-				}
-			}
-		}
-
-		// Update User Suspension Status.
-		// Suspending a user prevents them from logging into their account.
-		if($user_status = $this->input->post('suspend_status')){
-			// Get current statuses to check if submitted status has changed.
-			$current_status = $this->input->post('current_status');
-
-			foreach($user_status as $user_id=> $status){
-				if($current_status[$user_id] != $status){
-					if($status == 1){
-						$this->flexi_auth->update_user($user_id, array($this->flexi_auth->db_column('user_acc', 'suspend')=>1));
-					}else{
-						$this->flexi_auth->update_user($user_id, array($this->flexi_auth->db_column('user_acc', 'suspend')=>0));
+		if($this->input->post()){
+			if($this->flexi_auth->is_privileged('Delete Users')){
+				if($delete_users = $this->input->post('delete_user')){
+					foreach($delete_users as $user_id=> $delete){
+						// Note: As the 'delete_user' input is a checkbox, it will only be present in the $_POST data if it has been checked,
+						// therefore we don't need to check the submitted value.
+						$this->flexi_auth->delete_user($user_id);
 					}
 				}
 			}
+
+			// Update User Suspension Status.
+			// Suspending a user prevents them from logging into their account.
+			if($user_status = $this->input->post('suspend_status')){
+				// Get current statuses to check if submitted status has changed.
+				$current_status = $this->input->post('current_status');
+
+				foreach($user_status as $user_id=> $status){
+					if($current_status[$user_id] != $status){
+						if($status == 1){
+							$this->flexi_auth->update_user($user_id, array($this->flexi_auth->db_column('user_acc', 'suspend')=>1));
+						}else{
+							$this->flexi_auth->update_user($user_id, array($this->flexi_auth->db_column('user_acc', 'suspend')=>0));
+						}
+					}
+				}
+			}
+
+			// Save any public or admin status or error messages to CI's flash session data.
+			$this->session->set_flashdata('message', $this->flexi_auth->get_messages());
+
+			// Redirect user.
+			redirect('module/users/view');
 		}
-
-		// Save any public or admin status or error messages to CI's flash session data.
-		$this->session->set_flashdata('message', $this->flexi_auth->get_messages());
-
-		// Redirect user.
-		redirect('auth_admin/manage_user_accounts');
 	}
 	/**
 	 * update_user_account
@@ -225,21 +227,22 @@ class Modules extends LF_Model{
 	 * manage_user_groups
 	 * The function loops through all POST data checking the 'Delete' checkboxes that have been checked, and deletes the associated user groups.
 	 */
-	function manage_user_groups(){
+	function update_groups(){
 		// Delete groups.
-		if($delete_groups = $this->input->post('delete_group')){
-			foreach($delete_groups as $group_id=> $delete){
-				// Note: As the 'delete_group' input is a checkbox, it will only be present in the $_POST data if it has been checked,
-				// therefore we don't need to check the submitted value.
-				$this->flexi_auth->delete_group($group_id);
+		if($this->flexi_auth->is_privileged('Delete Groups')){
+			if($delete_groups = $this->input->post('delete_group')){
+				foreach($delete_groups as $group_id=> $delete){
+					// Note: As the 'delete_group' input is a checkbox, it will only be present in the $_POST data if it has been checked,
+					// therefore we don't need to check the submitted value.
+					$this->flexi_auth->delete_group($group_id);
+				}
+				// Save any public or admin status or error messages to CI's flash session data.
+				$this->session->set_flashdata('message', $this->flexi_auth->get_messages());
+
+				// Redirect user.
+				redirect('auth_admin/manage_user_groups');
 			}
 		}
-
-		// Save any public or admin status or error messages to CI's flash session data.
-		$this->session->set_flashdata('message', $this->flexi_auth->get_messages());
-
-		// Redirect user.
-		redirect('auth_admin/manage_user_groups');
 	}
 	/**
 	 * insert_user_group
@@ -317,7 +320,7 @@ class Modules extends LF_Model{
 			$this->session->set_flashdata('message', $this->flexi_auth->get_messages());
 
 			// Redirect user.
-			redirect('module/privilege/view');
+			redirect('module/privileges/view');
 		}
 	}
 	/**
@@ -423,7 +426,7 @@ class Modules extends LF_Model{
 			$this->session->set_flashdata('message', $this->flexi_auth->get_messages());
 
 			// Redirect user.
-			redirect('auth_admin/manage_user_groups');
+			redirect("module/group_privileges/$group_id");
 		}
 
 		// Get data for the current user group.
@@ -481,7 +484,7 @@ class Modules extends LF_Model{
 			$password		 = $this->input->post('insert_user_password');
 			$user_first_name = $this->input->post('insert_user_first_name');
 			$user_last_name	 = $this->input->post('insert_user_last_name');
-			$user_group_id	 = $this->input->post('insert_group_id');
+			$user_group_id	 = $this->input->post('insert_user_group_id');
 			$user_data		 = array(
 				'upro_first_name'	=>$user_first_name,
 				'upro_last_name'	=>$user_last_name,

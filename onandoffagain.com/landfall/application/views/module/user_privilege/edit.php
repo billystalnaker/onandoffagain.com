@@ -17,7 +17,6 @@
 				Update User Privileges of '<?php echo $user['upro_first_name'].' '.$user['upro_last_name']; ?>', Member of Group '<?php echo $user['ugrp_name']; ?>'
 			</div>
 			<form action="<?php echo current_url(); ?>" method="POST" >
-
 				<div class="panel-body">
 					<div class="table-responsive">
 						<table class="table table-striped table-bordered table-hover" id="data_table">
