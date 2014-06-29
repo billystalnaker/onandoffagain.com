@@ -9,13 +9,13 @@ class Module extends LF_Controller{
     }
 
     public function users($action = NULL, $id = NULL){
-        $action = (!is_null($action)) ? $action : 'view';
-        $id     = (!is_null($id)) ? $id : 0;
+        $action = (!is_null($action))?$action:'view';
+        $id     = (!is_null($id))?$id:0;
         if($action === 'edit' && $id <= 0){
             //set flashdata sayign you must have id in order to edit
             redirect('module/users/view');
         }
-        if(!$this->flexi_auth->is_privileged('Users') || !$this->flexi_auth->is_privileged(ucfirst($action) . ' Users')){
+        if(!$this->flexi_auth->is_privileged('Users') || !$this->flexi_auth->is_privileged(ucfirst($action).' Users')){
             //set flashdata saying you dont have access to this
             redirect('home/dashboard');
         }
@@ -29,7 +29,7 @@ class Module extends LF_Controller{
             $group_options[$group['ugrp_id']] = $group['ugrp_name'];
         }
         $this->data['group_options'] = $group_options;
-        $this->data['message']       = (!isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
+        $this->data['message']       = (!isset($this->data['message']))?$this->session->flashdata('message'):$this->data['message'];
         switch($action){
             case 'add':
                 $this->modules->insert_user();
@@ -53,18 +53,18 @@ class Module extends LF_Controller{
     }
 
     public function groups($action = NULL, $id = NULL){
-        $action = (!is_null($action)) ? $action : 'view';
-        $id     = (!is_null($id)) ? $id : 0;
+        $action = (!is_null($action))?$action:'view';
+        $id     = (!is_null($id))?$id:0;
         if($action === 'edit' && $id <= 0){
             //set flashdata sayign you must have id in order to edit
             redirect('module/groups/view');
         }
-        if(!$this->flexi_auth->is_privileged('Groups') || !$this->flexi_auth->is_privileged(ucfirst($action) . ' Groups')){
+        if(!$this->flexi_auth->is_privileged('Groups') || !$this->flexi_auth->is_privileged(ucfirst($action).' Groups')){
             //set flashdata saying you dont have access to this
             redirect('home/dashboard');
         }
         $this->load->model('modules');
-        $this->data['message'] = (!isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
+        $this->data['message'] = (!isset($this->data['message']))?$this->session->flashdata('message'):$this->data['message'];
         switch($action){
             case 'add':
                 $this->modules->insert_user_group();
@@ -88,18 +88,18 @@ class Module extends LF_Controller{
     }
 
     public function privileges($action = NULL, $id = NULL){
-        $action = (!is_null($action)) ? $action : 'view';
-        $id     = (!is_null($id)) ? $id : 0;
+        $action = (!is_null($action))?$action:'view';
+        $id     = (!is_null($id))?$id:0;
         if($action === 'edit' && $id <= 0){
             //set flashdata sayign you must have id in order to edit
             redirect('module/privileges/view');
         }
-        if(!$this->flexi_auth->is_privileged('Privileges') || !$this->flexi_auth->is_privileged(ucfirst($action) . ' Privileges')){
+        if(!$this->flexi_auth->is_privileged('Privileges') || !$this->flexi_auth->is_privileged(ucfirst($action).' Privileges')){
             //set flashdata saying you dont have access to this
             redirect('home/dashboard');
         }
         $this->load->model('modules');
-        $this->data['message'] = (!isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
+        $this->data['message'] = (!isset($this->data['message']))?$this->session->flashdata('message'):$this->data['message'];
         switch($action){
             case 'add':
                 $this->modules->insert_privilege();
@@ -113,6 +113,7 @@ class Module extends LF_Controller{
             case 'view':
             default:
                 $this->modules->get_privileges();
+                $this->modules->update_privileges();
                 // Set any returned status/error messages.
 
                 $this->data['content'] = $this->load->view('module/privilege/view', $this->data, true);
@@ -122,18 +123,25 @@ class Module extends LF_Controller{
     }
 
     public function st_lights($action = NULL, $id = NULL){
-        $action = (!is_null($action)) ? $action : 'view';
-        $id     = (!is_null($id)) ? $id : 0;
+        $action = (!is_null($action))?$action:'view';
+        $id     = (!is_null($id))?$id:0;
         if($action === 'edit' && $id <= 0){
             //set flashdata sayign you must have id in order to edit
             redirect('module/st_lights/view');
         }
-        if(!$this->flexi_auth->is_privileged('St Lights') || !$this->flexi_auth->is_privileged(ucfirst($action) . ' St Lights')){
+        if(!$this->flexi_auth->is_privileged('St Lights') || !$this->flexi_auth->is_privileged(ucfirst($action).' St Lights')){
             //set flashdata saying you dont have access to this
             redirect('home/dashboard');
         }
         $this->load->model('modules');
-        $this->data['message'] = (!isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
+        $defects            = $this->db->get('defect')->result_array();
+        $defect_options     = array();
+        $defect_options[''] = 'Please Select...';
+        foreach($defects as $defect){
+            $defect_options[$defect['id']] = $defect['defect_name'];
+        }
+        $this->data['defect_options'] = $defect_options;
+        $this->data['message']        = (!isset($this->data['message']))?$this->session->flashdata('message'):$this->data['message'];
         switch($action){
             case 'add':
                 $this->modules->insert_st_light();
@@ -147,6 +155,7 @@ class Module extends LF_Controller{
             case 'view':
             default:
                 $this->modules->get_st_lights();
+                $this->modules->update_st_lights();
                 // Set any returned status/error messages.
 
                 $this->data['content'] = $this->load->view('module/st_light/view', $this->data, true);
@@ -156,7 +165,7 @@ class Module extends LF_Controller{
     }
 
     public function user_privileges($id = NULL){
-        $id = (!is_null($id)) ? $id : 0;
+        $id = (!is_null($id))?$id:0;
         if($id <= 0){
             //set flashdata sayign you must have id in order to edit
             redirect('module/users/view');
@@ -166,7 +175,7 @@ class Module extends LF_Controller{
             redirect('home/dashboard');
         }
         $this->load->model('modules');
-        $this->data['message'] = (!isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
+        $this->data['message'] = (!isset($this->data['message']))?$this->session->flashdata('message'):$this->data['message'];
         $this->modules->update_user_privileges($id);
         $this->data['content'] = $this->load->view('module/user_privilege/edit', $this->data, true);
 
@@ -174,7 +183,7 @@ class Module extends LF_Controller{
     }
 
     public function group_privileges($id = NULL){
-        $id = (!is_null($id)) ? $id : 0;
+        $id = (!is_null($id))?$id:0;
         if($id <= 0){
             //set flashdata sayign you must have id in order to edit
             redirect('module/groups/view');
@@ -184,7 +193,7 @@ class Module extends LF_Controller{
             redirect('home/dashboard');
         }
         $this->load->model('modules');
-        $this->data['message'] = (!isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
+        $this->data['message'] = (!isset($this->data['message']))?$this->session->flashdata('message'):$this->data['message'];
         $this->modules->update_group_privileges($id);
         $this->data['content'] = $this->load->view('module/group_privilege/edit', $this->data, true);
 

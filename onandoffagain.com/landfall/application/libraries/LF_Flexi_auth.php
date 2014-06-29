@@ -156,7 +156,7 @@ class LF_Flexi_auth extends LF_Flexi_auth_lite{
      * @author Rob Hussey
      */
     public function valid_password_chars($password = FALSE){
-        return (bool) preg_match("/^[" . $this->CI->auth->auth_security['valid_password_chars'] . "]+$/i", $password);
+        return (bool) preg_match("/^[".$this->CI->auth->auth_security['valid_password_chars']."]+$/i", $password);
     }
 
     ###++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++###
@@ -255,7 +255,7 @@ class LF_Flexi_auth extends LF_Flexi_auth_lite{
                 'identity' => $identity,
                 'activation_token' => $activation_token
             );
-            $template  = $this->CI->auth->email_settings['email_template_directory'] . $this->CI->auth->email_settings['email_template_activate'];
+            $template  = $this->CI->auth->email_settings['email_template_directory'].$this->CI->auth->email_settings['email_template_activate'];
 
             if($this->CI->flexi_auth_model->send_email($email_to, $email_title, $user_data, $template)){
                 $this->CI->flexi_auth_model->set_status_message('activation_email_successful', 'config');
@@ -333,7 +333,7 @@ class LF_Flexi_auth extends LF_Flexi_auth_lite{
                 'identity' => $identity,
                 'forgotten_password_token' => $forgotten_password_token
             );
-            $template  = $this->CI->auth->email_settings['email_template_directory'] . $this->CI->auth->email_settings['email_template_forgot_password'];
+            $template  = $this->CI->auth->email_settings['email_template_directory'].$this->CI->auth->email_settings['email_template_forgot_password'];
 
             if($this->CI->flexi_auth_model->send_email($email_to, $email_title, $user_data, $template)){
                 $this->CI->flexi_auth_model->set_status_message('email_forgot_password_successful', 'config');
@@ -397,7 +397,7 @@ class LF_Flexi_auth extends LF_Flexi_auth_lite{
                     'identity' => $identity,
                     'new_password' => $new_password
                 );
-                $template  = $this->CI->auth->email_settings['email_template_directory'] .
+                $template  = $this->CI->auth->email_settings['email_template_directory'].
                         $this->CI->auth->email_settings['email_template_forgot_password_complete'];
 
                 if($this->CI->flexi_auth_model->send_email($email_to, $email_title, $user_data, $template)){
@@ -457,7 +457,7 @@ class LF_Flexi_auth extends LF_Flexi_auth_lite{
                 'update_email_token' => $update_email_token
             );
 
-            $template = $this->CI->auth->email_settings['email_template_directory'] . $this->CI->auth->email_settings['email_template_update_email'];
+            $template = $this->CI->auth->email_settings['email_template_directory'].$this->CI->auth->email_settings['email_template_update_email'];
 
             if($this->CI->flexi_auth_model->send_email($email_to, $email_title, $user_data, $template)){
                 $this->CI->flexi_auth_model->set_status_message('email_activation_email_successful', 'config');
@@ -506,7 +506,7 @@ class LF_Flexi_auth extends LF_Flexi_auth_lite{
             // Check whether to auto activate the user.
             if($activate){
                 // If an account activation time limit is set by the config file, retain activation token.
-                $clear_token = ($this->CI->auth->auth_settings['account_activation_time_limit'] > 0) ? FALSE : TRUE;
+                $clear_token = ($this->CI->auth->auth_settings['account_activation_time_limit'] > 0)?FALSE:TRUE;
 
                 $this->CI->flexi_auth_model->activate_user($user_id, FALSE, FALSE, $clear_token);
             }
@@ -540,7 +540,7 @@ class LF_Flexi_auth extends LF_Flexi_auth_lite{
                     'identity' => $identity,
                     'activation_token' => $activation_token
                 );
-                $template  = $this->CI->auth->email_settings['email_template_directory'] . $this->CI->auth->email_settings['email_template_activate'];
+                $template  = $this->CI->auth->email_settings['email_template_directory'].$this->CI->auth->email_settings['email_template_activate'];
 
                 if($this->CI->flexi_auth_model->send_email($email_to, $email_title, $user_data, $template)){
                     $this->CI->flexi_auth_model->set_status_message('activation_email_successful', 'config');
@@ -918,7 +918,7 @@ class LF_Flexi_auth extends LF_Flexi_auth_lite{
      */
 
     public function get_users_group_query($sql_select = FALSE, $sql_where = FALSE){
-        $sql_select = ($sql_select) ? $sql_select : $this->CI->auth->tbl_user_group . '.*';
+        $sql_select = ($sql_select)?$sql_select:$this->CI->auth->tbl_user_group.'.*';
 
         if(!$sql_where){
             $sql_where = array($this->CI->auth->tbl_col_user_account['id'] => $this->CI->auth->session_data[$this->CI->auth->session_name['user_id']]);
@@ -937,7 +937,7 @@ class LF_Flexi_auth extends LF_Flexi_auth_lite{
      */
 
     public function get_users_query($sql_select = FALSE, $sql_where = FALSE){
-        $sql_select = ($sql_select) ? $sql_select : $this->CI->auth->tbl_user_account . '.*';
+        $sql_select = ($sql_select)?$sql_select:$this->CI->auth->tbl_user_account.'.*';
 
         if(!$sql_where){
             $sql_where = array($this->CI->auth->tbl_col_user_account['id'] => $this->CI->auth->session_data[$this->CI->auth->session_name['user_id']]);
@@ -1035,7 +1035,7 @@ class LF_Flexi_auth extends LF_Flexi_auth_lite{
             return FALSE;
         }
 
-        $template = $this->CI->auth->email_settings['email_template_directory'] . $template;
+        $template = $this->CI->auth->email_settings['email_template_directory'].$template;
 
         return $this->CI->flexi_auth_model->send_email($email_to, $email_title, $email_data, $template);
     }

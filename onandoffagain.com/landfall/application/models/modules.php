@@ -46,13 +46,15 @@ class Modules extends LF_Model{
 
     function get_privileges(){
         // Select user data to be displayed.
-        $sql_select               = array(
-            $this->flexi_auth->db_column('user_privilege', 'id'),
-            $this->flexi_auth->db_column('user_privilege', 'name'),
-            $this->flexi_auth->db_column('user_privilege', 'description'),
-        );
+        $sql_select               = array('id', 'location', 'description', 'defect_id', 'active');
         $this->flexi_auth->sql_select($sql_select);
         $this->data['privileges'] = $this->flexi_auth->get_privilege_array();
+    }
+
+    function get_st_lights(){
+        // Select user data to be displayed.
+        $sql_select              = array('id', 'location', 'description', 'defect_id', 'active');
+        $this->data['st_lights'] = $this->db->select($sql_select)->get('st_light')->result_array();
     }
 
     function get_user_group($group_id){
@@ -67,54 +69,15 @@ class Modules extends LF_Model{
         $this->data['privilege'] = array_shift($this->flexi_auth->get_privilege_array(FALSE, $filters));
     }
 
+    function get_st_light($st_light_id){
+        $filters                = array('id' => $st_light_id);
+        $this->data['st_light'] = array_shift($this->db->where($filters)->get('st_light')->result_array());
+    }
+
     function get_user($user_id){
         $filters[$this->flexi_auth->db_column('user_acc', 'id')] = $user_id;
 
         $this->data['user'] = array_shift($this->flexi_auth->get_users_query(FALSE, $filters)->result_array());
-    }
-
-    /**
-     * update_user_accounts
-     * The function loops through all POST data checking the 'Suspend' and 'Delete' checkboxes that have been checked, and updates/deletes the user accounts accordingly.
-     */
-    function update_users(){
-        // If user has privileges, delete users.
-        if($this->input->post()){
-            if($this->flexi_auth->is_privileged('Delete Users')){
-                if($delete_users = $this->input->post('delete_user')){
-                    foreach($delete_users as $user_id => $delete){
-                        // Note: As the 'delete_user' input is a checkbox, it will only be present in the $_POST data if it has been checked,
-                        // therefore we don't need to check the submitted value.
-                        $this->flexi_auth->delete_user($user_id);
-                    }
-                }
-            }
-
-            // Update User Suspension Status.
-            // Suspending a user prevents them from logging into their account.
-            if($user_status = $this->input->post('suspend_status')){
-                // Get current statuses to check if submitted status has changed.
-                $current_status = $this->input->post('current_status');
-
-                foreach($user_status as $user_id => $status){
-                    if($current_status[$user_id] != $status){
-                        if($status == 1){
-                            $this->flexi_auth->update_user($user_id, array(
-                                $this->flexi_auth->db_column('user_acc', 'suspend') => 1));
-                        }else{
-                            $this->flexi_auth->update_user($user_id, array(
-                                $this->flexi_auth->db_column('user_acc', 'suspend') => 0));
-                        }
-                    }
-                }
-            }
-
-            // Save any public or admin status or error messages to CI's flash session data.
-            $this->session->set_flashdata('message', $this->flexi_auth->get_messages());
-
-            // Redirect user.
-            redirect('module/users/view');
-        }
     }
 
     /**
@@ -242,132 +205,55 @@ class Modules extends LF_Model{
     }
 
     /**
-     * delete_users
-     * Delete all user accounts that have not been activated X days since they were registered.
+     * update_st_light
+     * Updates a specific st_light.
      */
-    function delete_users($inactive_days){
-        // Deleted accounts that have never been activated.
-        $this->flexi_auth->delete_unactivated_users($inactive_days);
-
-        // Save any public or admin status or error messages to CI's flash session data.
-        $this->session->set_flashdata('message', $this->flexi_auth->get_messages());
-
-        // Redirect user.
-        redirect('auth_admin/manage_user_accounts');
-    }
-
-    ###++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++###
-    // User Groups
-    ###++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++###
-    /**
-     * manage_user_groups
-     * The function loops through all POST data checking the 'Delete' checkboxes that have been checked, and deletes the associated user groups.
-     */
-
-    function update_groups(){
-        // Delete groups.
-        if($this->flexi_auth->is_privileged('Delete Groups')){
-            if($delete_groups = $this->input->post('delete_group')){
-                foreach($delete_groups as $group_id => $delete){
-                    // Note: As the 'delete_group' input is a checkbox, it will only be present in the $_POST data if it has been checked,
-                    // therefore we don't need to check the submitted value.
-                    $this->flexi_auth->delete_group($group_id);
-                }
-                // Save any public or admin status or error messages to CI's flash session data.
-                $this->session->set_flashdata('message', $this->flexi_auth->get_messages());
-
-                // Redirect user.
-                redirect('auth_admin/manage_user_groups');
-            }
-        }
-    }
-
-    /**
-     * insert_user_group
-     * Inserts a new user group.
-     */
-    function insert_user_group(){
+    function update_st_light($st_light_id){
         $this->load->library('form_validation');
 
         // Set validation rules.
         $validation_rules = array(
             array(
-                'field' => 'insert_group_name',
-                'label' => 'Group Name',
+                'field' => 'update_st_light_desc',
+                'label' => 'St. Light Description',
                 'rules' => 'required'),
-        );
-
-        $this->form_validation->set_rules($validation_rules);
-
-        if($this->form_validation->run()){
-            // Get user group data from input.
-            $group_name = $this->input->post('insert_group_name');
-            $group_desc = $this->input->post('insert_group_desc');
-
-            $this->flexi_auth->insert_group($group_name, $group_desc, 0);
-
-            // Save any public or admin status or error messages to CI's flash session data.
-            $this->session->set_flashdata('message', $this->flexi_auth->get_messages());
-
-            // Redirect user.
-            redirect('module/groups/view');
-        }
-    }
-
-    ###++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++###
-    // Privileges
-    ###++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++###
-    /**
-     * manage_privileges
-     * The function loops through all POST data checking the 'Delete' checkboxes that have been checked, and deletes the associated privileges.
-     */
-
-    function manage_privileges(){
-        // Delete privileges.
-        if($delete_privileges = $this->input->post('delete_privilege')){
-            foreach($delete_privileges as $privilege_id => $delete){
-                // Note: As the 'delete_privilege' input is a checkbox, it will only be present in the $_POST data if it has been checked,
-                // therefore we don't need to check the submitted value.
-                $this->flexi_auth->delete_privilege($privilege_id);
-            }
-        }
-
-        // Save any public or admin status or error messages to CI's flash session data.
-        $this->session->set_flashdata('message', $this->flexi_auth->get_messages());
-
-        // Redirect user.
-        redirect('auth_admin/manage_privileges');
-    }
-
-    /**
-     * insert_privilege
-     * Inserts a new privilege.
-     */
-    function insert_privilege(){
-        $this->load->library('form_validation');
-
-        // Set validation rules.
-        $validation_rules = array(
             array(
-                'field' => 'insert_privilege_name',
-                'label' => 'Privilege Name',
-                'rules' => 'required')
+                'field' => 'update_st_light_location',
+                'label' => 'St. Light Location',
+                'rules' => 'required'
+            ),
+            array(
+                'field' => 'update_st_light_defect',
+                'label' => 'St. Light Defect',
+                'rules' => 'integer'
+            )
         );
 
         $this->form_validation->set_rules($validation_rules);
 
         if($this->form_validation->run()){
-            // Get privilege data from input.
-            $privilege_name = $this->input->post('insert_privilege_name');
-            $privilege_desc = $this->input->post('insert_privilege_desc');
+            // Get st_light data from input.
+            $data = array(
+                'location' => $this->input->post('update_st_light_location'),
+                'description' => $this->input->post('update_st_light_desc'),
+                'defect_id' => $this->input->post('update_st_light_defect'),
+                'active' => $this->input->post('update_st_light_active'),
+            );
 
-            $this->flexi_auth->insert_privilege($privilege_name, $privilege_desc);
+            $sql_where = array('id' => $st_light_id);
 
+            $this->db->update('st_light', $data, $sql_where);
+            if($this->db->affected_rows() == 1){
+
+                $this->flexi_auth_model->set_status_message('update_successful', 'config');
+            }else{
+                $this->flexi_auth_model->set_error_message('update_unsuccessful', 'config');
+            }
             // Save any public or admin status or error messages to CI's flash session data.
             $this->session->set_flashdata('message', $this->flexi_auth->get_messages());
 
             // Redirect user.
-            redirect('module/privileges/view');
+            redirect('module/st_lights/view');
         }
     }
 
@@ -446,7 +332,7 @@ class Modules extends LF_Model{
         }
 
         // Set any returned status/error messages.
-        $this->data['message'] = (!isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
+        $this->data['message'] = (!isset($this->data['message']))?$this->session->flashdata('message'):$this->data['message'];
     }
 
     /**
@@ -509,7 +395,202 @@ class Modules extends LF_Model{
         }
 
         // Set any returned status/error messages.
-        $this->data['message'] = (!isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
+        $this->data['message'] = (!isset($this->data['message']))?$this->session->flashdata('message'):$this->data['message'];
+    }
+
+    /**
+     * delete_users
+     * Delete all user accounts that have not been activated X days since they were registered.
+     */
+    function delete_users($inactive_days){
+        // Deleted accounts that have never been activated.
+        $this->flexi_auth->delete_unactivated_users($inactive_days);
+
+        // Save any public or admin status or error messages to CI's flash session data.
+        $this->session->set_flashdata('message', $this->flexi_auth->get_messages());
+
+        // Redirect user.
+        redirect('auth_admin/manage_user_accounts');
+    }
+
+    ###++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++###
+    // User Groups
+    ###++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++###
+    /**
+     * manage_user_groups
+     * The function loops through all POST data checking the 'Delete' checkboxes that have been checked, and deletes the associated user groups.
+     */
+
+    function update_groups(){
+        // Delete groups.
+        if($this->flexi_auth->is_privileged('Delete Groups')){
+            if($delete_groups = $this->input->post('delete_group')){
+                foreach($delete_groups as $group_id => $delete){
+                    // Note: As the 'delete_group' input is a checkbox, it will only be present in the $_POST data if it has been checked,
+                    // therefore we don't need to check the submitted value.
+                    $this->flexi_auth->delete_group($group_id);
+                }
+                // Save any public or admin status or error messages to CI's flash session data.
+                $this->session->set_flashdata('message', $this->flexi_auth->get_messages());
+
+                // Redirect user.
+                redirect('auth_admin/manage_user_groups');
+            }
+        }
+    }
+
+    /**
+     * update_user_accounts
+     * The function loops through all POST data checking the 'Suspend' and 'Delete' checkboxes that have been checked, and updates/deletes the user accounts accordingly.
+     */
+    function update_users(){
+        // If user has privileges, delete users.
+        if($this->input->post()){
+            if($this->flexi_auth->is_privileged('Delete Users')){
+                if($delete_users = $this->input->post('delete_user')){
+                    foreach($delete_users as $user_id => $delete){
+                        // Note: As the 'delete_user' input is a checkbox, it will only be present in the $_POST data if it has been checked,
+                        // therefore we don't need to check the submitted value.
+                        $this->flexi_auth->delete_user($user_id);
+                    }
+                }
+            }
+
+            // Update User Suspension Status.
+            // Suspending a user prevents them from logging into their account.
+            if($user_status = $this->input->post('suspend_status')){
+                // Get current statuses to check if submitted status has changed.
+                $current_status = $this->input->post('current_status');
+
+                foreach($user_status as $user_id => $status){
+                    if($current_status[$user_id] != $status){
+                        if($status == 1){
+                            $this->flexi_auth->update_user($user_id, array(
+                                $this->flexi_auth->db_column('user_acc', 'suspend') => 1));
+                        }else{
+                            $this->flexi_auth->update_user($user_id, array(
+                                $this->flexi_auth->db_column('user_acc', 'suspend') => 0));
+                        }
+                    }
+                }
+            }
+
+            // Save any public or admin status or error messages to CI's flash session data.
+            $this->session->set_flashdata('message', $this->flexi_auth->get_messages());
+
+            // Redirect user.
+            redirect('module/users/view');
+        }
+    }
+
+    /**
+     * manage_privileges
+     * The function loops through all POST data checking the 'Delete' checkboxes that have been checked, and deletes the associated privileges.
+     */
+    function update_privileges(){
+        // Delete privileges.
+        if($delete_privileges = $this->input->post('delete_privilege')){
+            foreach($delete_privileges as $privilege_id => $delete){
+                // Note: As the 'delete_privilege' input is a checkbox, it will only be present in the $_POST data if it has been checked,
+                // therefore we don't need to check the submitted value.
+                $this->flexi_auth->delete_privilege($privilege_id);
+            }
+
+
+            // Save any public or admin status or error messages to CI's flash session data.
+            $this->session->set_flashdata('message', $this->flexi_auth->get_messages());
+
+            // Redirect user.
+            redirect('module/privileges/view');
+        }
+    }
+
+    /**
+     * update st_lights
+     * The function loops through all POST data checking the 'Delete' checkboxes that have been checked, and deletes the associated st_lights.
+     */
+    function update_st_lights(){
+        // Delete st_lights.
+        if($this->flexi_auth->is_privileged('Delete St Lights')){
+            if($delete_st_lights = $this->input->post('delete_st_light')){
+                foreach($delete_st_lights as $st_light_id => $delete){
+                    // Note: As the 'delete_privilege' input is a checkbox, it will only be present in the $_POST data if it has been checked,
+                    // therefore we don't need to check the submitted value.
+                    $sql_where = array('id' => $st_light_id);
+                    // Delete privileges.
+                    $this->db->delete('st_light', $sql_where);
+                }
+                // Save any public or admin status or error messages to CI's flash session data.
+                $this->session->set_flashdata('message', $this->flexi_auth->get_messages());
+
+                // Redirect user.
+                redirect('module/st_lights/view');
+            }
+        }
+    }
+
+    /**
+     * insert_user_group
+     * Inserts a new user group.
+     */
+    function insert_user_group(){
+        $this->load->library('form_validation');
+
+        // Set validation rules.
+        $validation_rules = array(
+            array(
+                'field' => 'insert_group_name',
+                'label' => 'Group Name',
+                'rules' => 'required'),
+        );
+
+        $this->form_validation->set_rules($validation_rules);
+
+        if($this->form_validation->run()){
+            // Get user group data from input.
+            $group_name = $this->input->post('insert_group_name');
+            $group_desc = $this->input->post('insert_group_desc');
+
+            $this->flexi_auth->insert_group($group_name, $group_desc, 0);
+
+            // Save any public or admin status or error messages to CI's flash session data.
+            $this->session->set_flashdata('message', $this->flexi_auth->get_messages());
+
+            // Redirect user.
+            redirect('module/groups/view');
+        }
+    }
+
+    /**
+     * insert_privilege
+     * Inserts a new privilege.
+     */
+    function insert_privilege(){
+        $this->load->library('form_validation');
+
+        // Set validation rules.
+        $validation_rules = array(
+            array(
+                'field' => 'insert_privilege_name',
+                'label' => 'Privilege Name',
+                'rules' => 'required')
+        );
+
+        $this->form_validation->set_rules($validation_rules);
+
+        if($this->form_validation->run()){
+            // Get privilege data from input.
+            $privilege_name = $this->input->post('insert_privilege_name');
+            $privilege_desc = $this->input->post('insert_privilege_desc');
+
+            $this->flexi_auth->insert_privilege($privilege_name, $privilege_desc);
+
+            // Save any public or admin status or error messages to CI's flash session data.
+            $this->session->set_flashdata('message', $this->flexi_auth->get_messages());
+
+            // Redirect user.
+            redirect('module/privileges/view');
+        }
     }
 
     /**
@@ -575,6 +656,60 @@ class Modules extends LF_Model{
             }
             // Save any public or admin status or error messages to CI's flash session data.
             $this->session->set_flashdata('message', $this->flexi_auth->get_messages());
+        }
+    }
+
+    /**
+     * insert_st_light
+     * Inserts a new st_light.
+     */
+    function insert_st_light(){
+        $this->load->library('form_validation');
+
+        // Set validation rules.
+        $validation_rules = array(
+            array(
+                'field' => 'insert_st_light_desc',
+                'label' => 'St. Light Description',
+                'rules' => 'required'),
+            array(
+                'field' => 'insert_st_light_location',
+                'label' => 'St. Light Location',
+                'rules' => 'required'
+            ),
+            array(
+                'field' => 'insert_st_light_defect',
+                'label' => 'St. Light Defect',
+                'rules' => 'integer'
+            )
+        );
+
+        $this->form_validation->set_rules($validation_rules);
+
+        if($this->form_validation->run()){
+            // Get st_light data from input.
+            $st_light_location         = $this->input->post('insert_st_light_location');
+            $st_light_desc             = $this->input->post('insert_st_light_desc');
+            $st_light_defect           = $this->input->post('insert_st_light_defect');
+            $st_light_active           = $this->input->post('insert_st_light_active');
+            // Set standard privilege data.
+            $sql_insert['location']    = $st_light_location;
+            $sql_insert['description'] = $st_light_desc;
+            $sql_insert['defect_id']   = $st_light_defect;
+            $sql_insert['active']      = $st_light_active;
+            $this->db->insert('st_light', $sql_insert);
+
+            if(($this->db->affected_rows() == 1)?$this->db->insert_id():FALSE){
+                $this->flexi_auth_model->set_status_message('update_successful', 'config');
+            }else{
+                $this->flexi_auth_model->set_error_message('update_unsuccessful', 'config');
+            }
+
+            // Save any public or admin status or error messages to CI's flash session data.
+            $this->session->set_flashdata('message', $this->flexi_auth->get_messages());
+
+            // Redirect user.
+            redirect('module/st_lights/view');
         }
     }
 
