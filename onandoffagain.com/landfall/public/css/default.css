@@ -9,3 +9,10 @@
 .navbar-line-height-fix{
     line-height: 20px !important;
 }
+.navbar-user-info{
+    color: #777;
+    height: 50px;
+    padding: 15px 15px;
+    font-size: 18px;
+    line-height: 20px;
+}
