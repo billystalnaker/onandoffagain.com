@@ -21,6 +21,34 @@
 		height:100%;
 	}
 </style>
+<div id="st_light_update_form_div" class="js_var">
+	<h2>What needs to happen?</h2>
+	<form class="st_light_update_form">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group row">
+					<label class="col-md-3" >Defect:</label>
+					<div class="input-group col-md-9">
+						<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+						<?php
+						echo form_dropdown('st_light_defect_id', $defect_options, '', "class='form-control st_light_defect_id'");
+						?>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-md-3" >Active:</label>
+					<div class="input-group col-md-9">
+						<span class="input-group-addon"><i class="fa fa-power-off"></i></span>
+						<?php
+						echo form_dropdown('st_light_active', array('y'=>'Yes', 'n'=>'No'), 'n', "class='form-control st_light_active'");
+						?>
+					</div>
+				</div>
+			</div>
+		</div>
+		<input class="st_light_id" name="st_light_id" type="hidden" value="" />
+	</form>
+</div>
 <span id="marker_get_api_url" class="js_var"><?php echo site_url('api/get_markers') ?></span>
 <span id="marker_update_api_url" class="js_var"><?php echo site_url('api/update_marker') ?></span>
 <script type="text/javascript">
@@ -48,20 +76,14 @@
 					title: element.title
 				});
 				google.maps.event.addListener(marker, 'click', function(){
-					var h2=$("<h2></h2>").html('What needs to happen?');
-					var label=$("<label></label>").html('Test:').addClass('col-md-3');
-					var icon=$("<i></i>").addClass('fa fa-map-marker');
-					var span=$("<span></span").addClass('input-group-addon').append(icon);
-					var input=$("<input />").addClass('form-control').attr('name', 'test_name').attr('type', 'text');
-					var input_group=$("<div></div>").addClass('input-group col-md-9').append(span).append(input);
-					var form_group=$("<div></div>").addClass('form-group row').append(label).append(input_group);
-					var col_6=$("<div></div>").addClass('col-md-6').append(form_group);
-					var row=$("<div></div>").addClass('row').append(col_6);
-					var form=$("<form></form>").attr('id', 'update_st_light_form').append(row);
-					var message=$("<div></div>").addClass('st_light_confirm').append(h2).append(form);
-					bootbox.confirm(message.html(), function(result){
+					$(".st_light_defect_id").val(element.defect_id);
+					$('.st_light_defect_id').selectmenu("refresh", true);
+					$(".st_light_id").val(element.id);
+					$(".st_light_active").val(element.active);
+					$('.st_light_active').selectmenu("refresh", true);
+					bootbox.confirm($('#st_light_update_form_div').html(), function(result){
 						if(result===true){
-							var $objs=$('#update_st_light_form').serializeArray();
+							var $objs=$('.modal-body .st_light_update_form').serializeArray();
 							console.log($objs);
 							$.post($('#marker_update_api_url').text(), $objs, function(){
 

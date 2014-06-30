@@ -133,7 +133,7 @@ class Module extends LF_Controller{
 		$defect_options		 = array();
 		$defect_options['']	 = 'Please Select...';
 		foreach($defects as $defect){
-			$defect_options[$defect['id']] = $defect['defect_name'];
+			$defect_options[$defect['id']] = $defect['name'];
 		}
 		$this->data['defect_options']	 = $defect_options;
 		$this->data['message']			 = (!isset($this->data['message']))?$this->session->flashdata('message'):$this->data['message'];
@@ -232,8 +232,15 @@ class Module extends LF_Controller{
 			redirect('home/dashboard');
 		}
 		$this->load->model('modules');
-		$this->data['message']	 = (!isset($this->data['message']))?$this->session->flashdata('message'):$this->data['message'];
-		$this->data['content']	 = $this->load->view('module/reports/google_map', $this->data, true);
+		$defects			 = $this->db->get('defect')->result_array();
+		$defect_options		 = array();
+		$defect_options['']	 = 'Please Select...';
+		foreach($defects as $defect){
+			$defect_options[$defect['id']] = $defect['name'];
+		}
+		$this->data['defect_options']	 = $defect_options;
+		$this->data['message']			 = (!isset($this->data['message']))?$this->session->flashdata('message'):$this->data['message'];
+		$this->data['content']			 = $this->load->view('module/reports/google_map', $this->data, true);
 
 		$this->load->view('tpl/structure', $this->data);
 	}
