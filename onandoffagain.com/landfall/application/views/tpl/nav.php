@@ -15,7 +15,7 @@
                                 <li><a href="#about">About</a></li>
                                 <li><a href="#contact">Contact</a></li>
 <?php if($is_logged){ ?>
-                                                                                                                                                                                                                                                                                                        <li><a class="sign-out" href="#" data-alt="<?php echo site_url('account/logout'); ?>">Logout</a></li>
+                                                                                                                                                                                                                                                                                                                <li><a class="sign-out" href="#" data-alt="<?php echo site_url('account/logout'); ?>">Logout</a></li>
 <?php } ?>
                         </ul>
                 </div>
@@ -338,6 +338,25 @@
                                 <?php if($this->flexi_auth->is_privileged('View St Lights')){ ?>
                                     <li>
                                         <a href="<?php echo site_url('module/st_lights/view'); ?>">View</a>
+                                    </li>
+                                <?php } ?>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                    <?php } ?>
+                    <?php if($this->flexi_auth->is_privileged('Defects')){ ?>
+                        <li>
+                            <a href="#"><i class="fa fa-lightbulb-o fa-fw"></i> Defects<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <?php if($this->flexi_auth->is_privileged('Add Defects')){ ?>
+                                    <li>
+                                        <a href="<?php echo site_url('module/defects/add'); ?>">Add</a>
+                                    </li>
+                                <?php } ?>
+
+                                <?php if($this->flexi_auth->is_privileged('View Defects')){ ?>
+                                    <li>
+                                        <a href="<?php echo site_url('module/defects/view'); ?>">View</a>
                                     </li>
                                 <?php } ?>
                             </ul>

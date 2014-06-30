@@ -222,4 +222,58 @@ if($is_logged){
             </div>
         </div><?php
     }
+    if($this->flexi_auth->is_privileged('Defects')){
+        ?>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Defects
+                    </div>
+                    <div class="panel-body">
+                        <div class="panel-group" id="defect_accordion"><?php
+                            if($this->flexi_auth->is_privileged('View Defects')){
+                                ?>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#defect_accordion" href="#view_defect_panel" >View</a>
+                                        </h4>
+                                    </div>
+                                    <div class="panel-collapse collapse in" id="view_defect_panel">
+                                        <div class="panel-body">
+                                            <h3>View Defects</h3>
+                                            <p>Here you can view Defects.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec viverra risus sit amet fermentum molestie. Donec hendrerit venenatis velit ultrices bibendum. Nunc elementum sem ipsum, et pellentesque quam dapibus sit amet. Nulla sed adipiscing orci. Nulla lacinia feugiat magna eu porta. </p>
+                                            <a href="<?php echo site_url('module/defects/view'); ?>">View Defects</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php
+                            }
+                            if($this->flexi_auth->is_privileged('Add Defects')){
+                                ?>
+                                <div class="panel panel-default">
+
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#defect_accordion" href="#add_defect_panel">Add</a>
+                                        </h4>
+                                    </div>
+                                    <div class="panel-collapse collapse" id="add_defect_panel">
+                                        <div class="panel-body">
+                                            <h3>Add Defects</h3>
+                                            <p>Here you can add Defects.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec viverra risus sit amet fermentum molestie. Donec hendrerit venenatis velit ultrices bibendum. Nunc elementum sem ipsum, et pellentesque quam dapibus sit amet. Nulla sed adipiscing orci. Nulla lacinia feugiat magna eu porta. </p>
+                                            <a href="<?php echo site_url('module/defects/add'); ?>">Add Defects</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><?php
+    }
 }

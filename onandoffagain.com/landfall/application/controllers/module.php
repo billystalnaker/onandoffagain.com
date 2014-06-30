@@ -164,6 +164,41 @@ class Module extends LF_Controller{
         $this->load->view('tpl/structure', $this->data);
     }
 
+    public function defects($action = NULL, $id = NULL){
+        $action = (!is_null($action))?$action:'view';
+        $id     = (!is_null($id))?$id:0;
+        if($action === 'edit' && $id <= 0){
+            //set flashdata sayign you must have id in order to edit
+            redirect('module/defects/view');
+        }
+        if(!$this->flexi_auth->is_privileged('Defects') || !$this->flexi_auth->is_privileged(ucfirst($action).' Defects')){
+            //set flashdata saying you dont have access to this
+            redirect('home/dashboard');
+        }
+        $this->load->model('modules');
+        $this->data['message'] = (!isset($this->data['message']))?$this->session->flashdata('message'):$this->data['message'];
+        switch($action){
+            case 'add':
+                $this->modules->insert_defect();
+                $this->data['content'] = $this->load->view('module/defect/add', $this->data, true);
+                break;
+            case 'edit':
+                $this->modules->get_defect($id);
+                $this->modules->update_defect($id);
+                $this->data['content'] = $this->load->view('module/defect/edit', $this->data, true);
+                break;
+            case 'view':
+            default:
+                $this->modules->get_defects();
+                $this->modules->update_defects();
+                // Set any returned status/error messages.
+
+                $this->data['content'] = $this->load->view('module/defect/view', $this->data, true);
+                break;
+        }
+        $this->load->view('tpl/structure', $this->data);
+    }
+
     public function user_privileges($id = NULL){
         $id = (!is_null($id))?$id:0;
         if($id <= 0){

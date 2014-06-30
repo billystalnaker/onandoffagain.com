@@ -46,7 +46,11 @@ class Modules extends LF_Model{
 
     function get_privileges(){
         // Select user data to be displayed.
-        $sql_select               = array('id', 'location', 'description', 'defect_id', 'active');
+        $sql_select               = array(
+            $this->flexi_auth->db_column('user_privilege', 'id'),
+            $this->flexi_auth->db_column('user_privilege', 'name'),
+            $this->flexi_auth->db_column('user_privilege', 'description'),
+        );
         $this->flexi_auth->sql_select($sql_select);
         $this->data['privileges'] = $this->flexi_auth->get_privilege_array();
     }
@@ -55,6 +59,12 @@ class Modules extends LF_Model{
         // Select user data to be displayed.
         $sql_select              = array('id', 'location', 'description', 'defect_id', 'active');
         $this->data['st_lights'] = $this->db->select($sql_select)->get('st_light')->result_array();
+    }
+
+    function get_defects(){
+        // Select user data to be displayed.
+        $sql_select            = array('id', 'name', 'description', 'active');
+        $this->data['defects'] = $this->db->select($sql_select)->get('defect')->result_array();
     }
 
     function get_user_group($group_id){
@@ -72,6 +82,11 @@ class Modules extends LF_Model{
     function get_st_light($st_light_id){
         $filters                = array('id' => $st_light_id);
         $this->data['st_light'] = array_shift($this->db->where($filters)->get('st_light')->result_array());
+    }
+
+    function get_defect($defect_id){
+        $filters              = array('id' => $defect_id);
+        $this->data['defect'] = array_shift($this->db->where($filters)->get('defect')->result_array());
     }
 
     function get_user($user_id){
@@ -254,6 +269,49 @@ class Modules extends LF_Model{
 
             // Redirect user.
             redirect('module/st_lights/view');
+        }
+    }
+
+    /**
+     * update_defect
+     * Updates a specific defect.
+     */
+    function update_defect($defect_id){
+        $this->load->library('form_validation');
+
+        // Set validation rules.
+        $validation_rules = array(
+            array(
+                'field' => 'update_defect_name',
+                'label' => 'Defect Name',
+                'rules' => 'required'
+            )
+        );
+
+        $this->form_validation->set_rules($validation_rules);
+
+        if($this->form_validation->run()){
+            // Get defect data from input.
+            $data = array(
+                'name' => $this->input->post('update_defect_name'),
+                'description' => $this->input->post('update_defect_desc'),
+                'active' => $this->input->post('update_defect_active'),
+            );
+
+            $sql_where = array('id' => $defect_id);
+
+            $this->db->update('defect', $data, $sql_where);
+            if($this->db->affected_rows() == 1){
+
+                $this->flexi_auth_model->set_status_message('update_successful', 'config');
+            }else{
+                $this->flexi_auth_model->set_error_message('update_unsuccessful', 'config');
+            }
+            // Save any public or admin status or error messages to CI's flash session data.
+            $this->session->set_flashdata('message', $this->flexi_auth->get_messages());
+
+            // Redirect user.
+            redirect('module/defects/view');
         }
     }
 
@@ -525,6 +583,30 @@ class Modules extends LF_Model{
 
                 // Redirect user.
                 redirect('module/st_lights/view');
+            }
+        }
+    }
+
+    /**
+     * update defects
+     * The function loops through all POST data checking the 'Delete' checkboxes that have been checked, and deletes the associated defects.
+     */
+    function update_defects(){
+        // Delete defects.
+        if($this->flexi_auth->is_privileged('Delete St Lights')){
+            if($delete_defects = $this->input->post('delete_defect')){
+                foreach($delete_defects as $defect_id => $delete){
+                    // Note: As the 'delete_privilege' input is a checkbox, it will only be present in the $_POST data if it has been checked,
+                    // therefore we don't need to check the submitted value.
+                    $sql_where = array('id' => $defect_id);
+                    // Delete privileges.
+                    $this->db->delete('defect', $sql_where);
+                }
+                // Save any public or admin status or error messages to CI's flash session data.
+                $this->session->set_flashdata('message', $this->flexi_auth->get_messages());
+
+                // Redirect user.
+                redirect('module/defects/view');
             }
         }
     }
