@@ -46,15 +46,6 @@ if(!empty($message)){
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-md-3" >Defect:</label>
-				<div class="input-group col-md-9">
-					<span class="input-group-addon"><i class="fa-wrench fa"></i></span>
-					<?php
-					echo form_dropdown('insert_st_light_defect', $defect_options, set_value('insert_st_light_defect'), "class='form-control'");
-					?>
-				</div>
-			</div>
-			<div class="form-group row">
 				<label class="col-md-3">Active:</label>
 				<div class="input-group col-md-9">
 					<span class="input-group-addon"><i class="fa-power-off fa"></i></span>

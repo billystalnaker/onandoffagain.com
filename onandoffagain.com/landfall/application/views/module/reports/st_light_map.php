@@ -70,7 +70,6 @@
 			var mouseLocation=event.latLng;
 			$(".insert_st_light_lat_loc").attr('value', mouseLocation.lat());
 			$(".insert_st_light_long_loc").attr('value', mouseLocation.lng());
-			console.log(mouseLocation, $(".insert_st_light_long_loc"), mouseLocation.lng());
 			$(".insert_st_light_form .col-md-6").removeClass('col-md-6').addClass('col-md-12');
 			$(".insert_st_light_form #insert_st_light_submit").hide();
 			var modal_div=$('<div></div>').append($('.insert_st_light_form').clone());
@@ -122,7 +121,7 @@
 				var marker=new google.maps.Marker({
 					position: new google.maps.LatLng(element.position.lat, element.position.long),
 					map: map,
-//		    icon: 'http://onandoffagain.com/landfall/public/img/map-pin-green-md.png',
+					icon: element.icon_image,
 					title: element.title
 				});
 				delete element.title;
@@ -131,7 +130,6 @@
 				markers.push(marker);
 			});
 		});
-		console.log(markers);
 		$.each(markers, function(index, element){
 			add_st_light_update_event_listener(element);
 		});
@@ -177,16 +175,13 @@
 						callback: function(){
 							var $objs=$('.modal-body .update_st_light_form').serializeArray();
 							$.post($('#marker_update_api_url').text(), $objs, function(data){
-								$.each($objs, function(obj_index, obj_element){
-									if(obj_element.name=="update_st_light_defect"){
-										element.defect_id=obj_element.value;
-									}else if(obj_element.name=="update_st_light_active"){
-										element.active=obj_element.value;
-									}else if(obj_element.name=="update_st_light_desc"){
-										element.description=obj_element.value;
-									}else if(obj_element.name=="update_st_light_location"){
-										element.location=obj_element.value;
-									}
+								$.each(data, function(obj_index, obj_element){
+									element.defect_id=obj_element.defect_id;
+									element.setIcon(data[obj_index].icon_image);
+									element.active=obj_element.active;
+									element.description=obj_element.description;
+									element.title=obj_element.description;
+									element.location=obj_element.location;
 								});
 							});
 						}
@@ -196,4 +191,7 @@
 		});
 	}
 	google.maps.event.addDomListener(window, 'load', initialize);
+	function which_icon(defect_id){
+
+	}
 </script>

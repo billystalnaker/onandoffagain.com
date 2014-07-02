@@ -45,16 +45,6 @@ if(!empty($message)){
 					<input class="form-control update_st_light_long" type="text" value="<?php echo set_value('update_st_light_long_loc', isset($st_light['long'])?$st_light['long']:'') ?>" name="update_st_light_long_loc">
 				</div>
 			</div>
-
-			<div class="form-group row">
-				<label class="col-md-3" >Defect:</label>
-				<div class="input-group col-md-9">
-					<span class="input-group-addon"><i class="fa-wrench fa"></i></span>
-					<?php
-					echo form_dropdown('update_st_light_defect', $defect_options, set_value('update_st_light_defect', isset($st_light['defect_id'])?$st_light['defect_id']:''), "class='form-control update_st_light_defect'");
-					?>
-				</div>
-			</div>
 			<div class="form-group row">
 				<label class="col-md-3">Active:</label>
 				<div class="input-group col-md-9">

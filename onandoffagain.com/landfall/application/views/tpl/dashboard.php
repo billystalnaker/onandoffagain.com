@@ -276,6 +276,60 @@ if($is_logged){
 			</div>
 		</div><?php
 	}
+	if($this->flexi_auth->is_privileged('Defect Types')){
+		?>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Defect Types
+					</div>
+					<div class="panel-body">
+						<div class="panel-group" id="defect_type_accordion"><?php
+							if($this->flexi_auth->is_privileged('View Defect Types')){
+								?>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h4 class="panel-title">
+											<a data-toggle="collapse" data-parent="#defect_type_accordion" href="#view_defect_type_panel" >View</a>
+										</h4>
+									</div>
+									<div class="panel-collapse collapse in" id="view_defect_type_panel">
+										<div class="panel-body">
+											<h3>View Defect Types</h3>
+											<p>Here you can view Defect Types.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec viverra risus sit amet fermentum molestie. Donec hendrerit venenatis velit ultrices bibendum. Nunc elementum sem ipsum, et pellentesque quam dapibus sit amet. Nulla sed adipiscing orci. Nulla lacinia feugiat magna eu porta. </p>
+											<a href="<?php echo site_url('module/defect_types/view'); ?>">View Defect Types</a>
+										</div>
+									</div>
+								</div>
+								<?php
+							}
+							if($this->flexi_auth->is_privileged('Add Defect Types')){
+								?>
+								<div class="panel panel-default">
+
+									<div class="panel-heading">
+										<h4 class="panel-title">
+											<a data-toggle="collapse" data-parent="#defect_type_accordion" href="#add_defect_type_panel">Add</a>
+										</h4>
+									</div>
+									<div class="panel-collapse collapse" id="add_defect_type_panel">
+										<div class="panel-body">
+											<h3>Add Defect Types</h3>
+											<p>Here you can add Defect Types.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec viverra risus sit amet fermentum molestie. Donec hendrerit venenatis velit ultrices bibendum. Nunc elementum sem ipsum, et pellentesque quam dapibus sit amet. Nulla sed adipiscing orci. Nulla lacinia feugiat magna eu porta. </p>
+											<a href="<?php echo site_url('module/defect_types/add'); ?>">Add Defect Types</a>
+										</div>
+									</div>
+								</div>
+								<?php
+							}
+							?>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><?php
+	}
 	if($this->flexi_auth->is_privileged('Reports')){
 		?>
 		<div class="row">

@@ -6,10 +6,10 @@
 </div>
 <?php
 if(!empty($message)){
-    ?>
-    <div id="message">
-        <?php echo $message; ?>
-    </div>
+	?>
+	<div id="message">
+		<?php echo $message; ?>
+	</div>
 <?php } ?>
 
 <?php echo validation_errors("<div class='row'> <div class='alert alert-danger col-md-6'>", "</div><div class='col-md-6'></div></div>"); ?>
@@ -32,13 +32,22 @@ if(!empty($message)){
                         <input class="form-control" type="text" value="<?php echo set_value('update_defect_desc', $defect['description']) ?>" name="update_defect_desc">
                     </div>
                 </div>
+				<div class="form-group row">
+                    <label class="col-md-3" >Type:</label>
+                    <div class="input-group col-md-9">
+                        <span class="input-group-addon"><i class="fa-sort-amount-asc fa"></i></span>
+						<?php
+						echo form_dropdown('update_defect_type', $defect_types, set_value('update_defect_type', $defect['defect_type_id']), "class='form-control'");
+						?>
+                    </div>
+                </div>
                 <div class="form-group row">
                     <label class="col-md-3">Active:</label>
                     <div class="input-group col-md-9">
                         <span class="input-group-addon"><i class="fa-power-off fa"></i></span>
-                        <?php
-                        echo form_dropdown('update_defect_active', array('y' => 'Yes', 'n' => 'No'), set_value('update_defect_active', $defect['active']), "class='form-control'");
-                        ?>
+						<?php
+						echo form_dropdown('update_defect_active', array('y'=>'Yes', 'n'=>'No'), set_value('update_defect_active', $defect['active']), "class='form-control'");
+						?>
                     </div>
                 </div>
                 <div class="form-group">

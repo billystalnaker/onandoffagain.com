@@ -1,7 +1,7 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">View Defects</h1>
+        <h1 class="page-header">View Defect Types</h1>
     </div>
     <!-- /.col-lg-12 -->
 </div>
@@ -13,10 +13,10 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <a href="<?php echo site_url('module/defects/add') ?>" >Add a defect...</a>
+        <a href="<?php echo site_url('module/defect_types/add') ?>" >Add a defect type...</a>
         <div class="panel panel-default">
             <div class="panel-heading">
-                Defects
+                Defect Types
             </div>
             <!-- /.panel-heading -->
             <form action="<?php echo current_url(); ?>" method="POST" >
@@ -26,38 +26,30 @@
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Description</th>
-									<th>Defect Type</th>
-                                    <th>Active</th>
+									<th>Flag Color</th>
                                     <th>Delete</th>
                                 </tr>
                             </thead>
-							<?php if(!empty($defects)){
+							<?php if(!empty($defect_types)){
 								?>
 								<tbody>
-									<?php foreach($defects as $defect){ ?>
+									<?php foreach($defect_types as $defect_type){ ?>
 										<tr>
 											<td>
-												<a href="<?php echo site_url("module/defects/edit/".$defect['id']); ?>">
-													<?php echo $defect['name']; ?>
+												<a href="<?php echo site_url("module/defect_types/edit/".$defect_type['id']); ?>">
+													<?php echo $defect_type['name']; ?>
 												</a>
 											</td>
 											<td>
-												<?php echo $defect['description']; ?>
-											</td>
-											<td>
-												<?php echo isset($defect_types[$defect['defect_type_id']])?$defect_types[$defect['defect_type_id']]:"None"; ?>
-											</td>
-											<td>
-												<?php echo ($defect['active'] === 'y')?"Yes":"No"; ?>
+												<?php echo $defect_type['flag_color']; ?>
 											</td>
 											<td class="align_ctr">
 												<?php if($this->flexi_auth->is_privileged('Delete Users')){ ?>
-													<input type="checkbox" name="delete_defect[<?php echo $defect['id']; ?>]" value="1"/>
+													<input type="checkbox" name="delete_defect_type[<?php echo $defect_type['id']; ?>]" value="1"/>
 												<?php }else{ ?>
 													<input type="checkbox" disabled="disabled"/>
 													<small>Not Privileged</small>
-													<input type="hidden" name="delete_defect[<?php echo $defect['id']; ?>]" value="0"/>
+													<input type="hidden" name="delete_defect_type[<?php echo $defect_type['id']; ?>]" value="0"/>
 												<?php } ?>
 											</td>
 										</tr>
@@ -66,7 +58,7 @@
 							<?php } ?>
                         </table>
                     </div>
-                    <input class="btn btn-primary" type="submit" value="Update Defects" name="update_defects"/>
+                    <input class="btn btn-primary" type="submit" value="Update Defect Types" name="update_defect_types"/>
                 </div>
             </form>
         </div>

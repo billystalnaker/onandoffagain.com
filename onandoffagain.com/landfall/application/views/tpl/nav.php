@@ -148,6 +148,25 @@
 							<!-- /.nav-second-level -->
 						</li>
 					<?php } ?>
+					<?php if($this->flexi_auth->is_privileged('Defect Types')){ ?>
+						<li>
+							<a href="#"><i class="fa fa-flag fa-fw"></i> Defect Types<span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level">
+								<?php if($this->flexi_auth->is_privileged('Add Defect Types')){ ?>
+									<li>
+										<a href="<?php echo site_url('module/defect_types/add'); ?>">Add</a>
+									</li>
+								<?php } ?>
+
+								<?php if($this->flexi_auth->is_privileged('View Defect Types')){ ?>
+									<li>
+										<a href="<?php echo site_url('module/defect_types/view'); ?>">View</a>
+									</li>
+								<?php } ?>
+							</ul>
+							<!-- /.nav-second-level -->
+						</li>
+					<?php } ?>
 					<?php if($this->flexi_auth->is_privileged('Reports')){ ?>
 						<li>
 							<a href="#"><i class="fa fa-list-alt fa-fw"></i> Reports<span class="fa arrow"></span></a>

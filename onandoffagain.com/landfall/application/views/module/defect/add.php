@@ -32,6 +32,15 @@ if(!empty($message)){
                         <input class="form-control" type="text" value="<?php echo set_value('insert_defect_desc') ?>" name="insert_defect_desc">
                     </div>
                 </div>
+				<div class="form-group row">
+                    <label class="col-md-3" >Type:</label>
+                    <div class="input-group col-md-9">
+                        <span class="input-group-addon"><i class="fa-sort-amount-asc fa"></i></span>
+						<?php
+						echo form_dropdown('insert_defect_type', $defect_types, set_value('insert_defect_type'), "class='form-control'");
+						?>
+                    </div>
+                </div>
                 <div class="form-group row">
                     <label class="col-md-3">Active:</label>
                     <div class="input-group col-md-9">

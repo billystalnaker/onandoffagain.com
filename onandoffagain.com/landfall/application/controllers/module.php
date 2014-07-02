@@ -169,8 +169,15 @@ class Module extends LF_Controller{
 			//set flashdata saying you dont have access to this
 			redirect('home/dashboard');
 		}
+		$defect_types			 = $this->db->get('defect_type')->result_array();
+		$defect_type_options	 = array();
+		$defect_type_options[''] = 'Please Select...';
+		foreach($defect_types as $defect_type){
+			$defect_type_options[$defect_type['id']] = $defect_type['name'];
+		}
+		$this->data['defect_types']	 = $defect_type_options;
 		$this->load->model('modules');
-		$this->data['message'] = (!isset($this->data['message']))?$this->session->flashdata('message'):$this->data['message'];
+		$this->data['message']		 = (!isset($this->data['message']))?$this->session->flashdata('message'):$this->data['message'];
 		switch($action){
 			case 'add':
 				$this->modules->insert_defect();
@@ -188,6 +195,40 @@ class Module extends LF_Controller{
 				// Set any returned status/error messages.
 
 				$this->data['content'] = $this->load->view('module/defect/view', $this->data, true);
+				break;
+		}
+		$this->load->view('tpl/structure', $this->data);
+	}
+	public function defect_types($action = NULL, $id = NULL){
+		$action	 = (!is_null($action))?$action:'view';
+		$id		 = (!is_null($id))?$id:0;
+		if($action === 'edit' && $id <= 0){
+			//set flashdata sayign you must have id in order to edit
+			redirect('module/defect_types/view');
+		}
+		if(!$this->flexi_auth->is_privileged('Defect Types') || !$this->flexi_auth->is_privileged(ucfirst($action).' Defect Types')){
+			//set flashdata saying you dont have access to this
+			redirect('home/dashboard');
+		}
+		$this->load->model('modules');
+		$this->data['message'] = (!isset($this->data['message']))?$this->session->flashdata('message'):$this->data['message'];
+		switch($action){
+			case 'add':
+				$this->modules->insert_defect_type();
+				$this->data['content']	 = $this->load->view('module/defect_type/add', $this->data, true);
+				break;
+			case 'edit':
+				$this->modules->get_defect_types($id);
+				$this->modules->update_defect_types($id);
+				$this->data['content']	 = $this->load->view('module/defect_type/edit', $this->data, true);
+				break;
+			case 'view':
+			default:
+				$this->modules->get_defect_types();
+				$this->modules->update_defects();
+				// Set any returned status/error messages.
+
+				$this->data['content'] = $this->load->view('module/defect_type/view', $this->data, true);
 				break;
 		}
 		$this->load->view('tpl/structure', $this->data);
@@ -223,6 +264,23 @@ class Module extends LF_Controller{
 		$this->data['message']	 = (!isset($this->data['message']))?$this->session->flashdata('message'):$this->data['message'];
 		$this->modules->update_group_privileges($id);
 		$this->data['content']	 = $this->load->view('module/group_privilege/edit', $this->data, true);
+
+		$this->load->view('tpl/structure', $this->data);
+	}
+	public function st_light_defects($id = NULL){
+		$id = (!is_null($id))?$id:0;
+		if($id <= 0){
+			//set flashdata sayign you must have id in order to edit
+			redirect('module/st_lights/view');
+		}
+		if(!$this->flexi_auth->is_privileged('St Light Defects')){
+			//set flashdata saying you dont have access to this
+			redirect('home/dashboard');
+		}
+		$this->load->model('modules');
+		$this->data['message']	 = (!isset($this->data['message']))?$this->session->flashdata('message'):$this->data['message'];
+		$this->modules->update_st_light_defect($id);
+		$this->data['content']	 = $this->load->view('module/st_light_defect/edit', $this->data, true);
 
 		$this->load->view('tpl/structure', $this->data);
 	}

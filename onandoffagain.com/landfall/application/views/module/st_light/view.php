@@ -29,7 +29,7 @@
                                     <th>Description</th>
 									<th>Latitude Location</th>
 									<th>Longitude Location</th>
-                                    <th>Defect</th>
+                                    <th>Defects</th>
                                     <th>Active</th>
                                     <th>Delete</th>
                                 </tr>
@@ -54,13 +54,17 @@
 												<?php echo $st_light['long']; ?>
 											</td>
 											<td>
-												<?php echo $st_light['defect_id']; ?>
+												<?php if($this->flexi_auth->is_privileged('Manage St Light Defects')){ ?>
+													<a href="<?php echo site_url("module/st_light_defects/".$st_light['id']); ?>">Manage</a>
+												<?php }else{ ?>
+													<span>Not Privileged</span>
+												<?php } ?>
 											</td>
 											<td>
 												<?php echo ($st_light['active'] === 'y')?"Yes":"No"; ?>
 											</td>
 											<td class="align_ctr">
-												<?php if($this->flexi_auth->is_privileged('Delete Users')){ ?>
+												<?php if($this->flexi_auth->is_privileged('Delete St Lights')){ ?>
 													<input type="checkbox" name="delete_st_light[<?php echo $st_light['id']; ?>]" value="1"/>
 												<?php }else{ ?>
 													<input type="checkbox" disabled="disabled"/>
