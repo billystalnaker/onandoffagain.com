@@ -68,8 +68,9 @@
 				mapOptions);
 		google.maps.event.addListener(map, 'click', function(event){
 			var mouseLocation=event.latLng;
-			$(".insert_st_light_lat_loc").attr('value', mouseLocation.k);
-			$(".insert_st_light_long_loc").attr('value', mouseLocation.A);
+			$(".insert_st_light_lat_loc").attr('value', mouseLocation.lat());
+			$(".insert_st_light_long_loc").attr('value', mouseLocation.lng());
+			console.log(mouseLocation, $(".insert_st_light_long_loc"), mouseLocation.lng());
 			$(".insert_st_light_form .col-md-6").removeClass('col-md-6').addClass('col-md-12');
 			$(".insert_st_light_form #insert_st_light_submit").hide();
 			var modal_div=$('<div></div>').append($('.insert_st_light_form').clone());

@@ -226,12 +226,20 @@ class Module extends LF_Controller{
 
 		$this->load->view('tpl/structure', $this->data);
 	}
-	public function reports(){
-		if($this->flexi_auth->is_privileged('Reports')){
+	public function reports($report){
+		$report = "_".$report;
+		if(!method_exists($this, $report) || !is_callable(array($this, $report))){
+			die("you're not supposed to be here...");
+			redirect('home/dashboard');
+		}
+		if(!$this->flexi_auth->is_privileged('Reports')){
 			//set flashdata saying you dont have access to this
 			redirect('home/dashboard');
 		}
 		$this->load->model('modules');
+		$this->$report();
+	}
+	private function _st_light_map(){
 		$defects			 = $this->db->get('defect')->result_array();
 		$defect_options		 = array();
 		$defect_options['']	 = 'Please Select...';
@@ -240,7 +248,7 @@ class Module extends LF_Controller{
 		}
 		$this->data['defect_options']	 = $defect_options;
 		$this->data['message']			 = (!isset($this->data['message']))?$this->session->flashdata('message'):$this->data['message'];
-		$this->data['content']			 = $this->load->view('module/reports/google_map', $this->data, true);
+		$this->data['content']			 = $this->load->view('module/reports/st_light_map', $this->data, true);
 
 		$this->load->view('tpl/structure', $this->data);
 	}

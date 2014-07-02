@@ -723,7 +723,7 @@ class Modules extends LF_Model{
 	 * insert_st_light
 	 * Inserts a new st_light.
 	 */
-	function insert_st_light($ajax){
+	function insert_st_light($ajax = false){
 		$this->load->library('form_validation');
 
 // Set validation rules.
