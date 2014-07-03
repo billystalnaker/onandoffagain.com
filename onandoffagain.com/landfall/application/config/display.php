@@ -1,51 +1,63 @@
 <?php
 
-$scripts			 = array();
-$scripts[0]['type']	 = 'application/javascript';
-$scripts[0]['src']	 = '/js/jquery.js';
+$scripts = array();
+$i		 = 0;
 
-$scripts[1]['type']	 = 'application/javascript';
-$scripts[1]['src']	 = '/js/bootstrap.min.js';
+$scripts[$i]['type'] = 'application/javascript';
+$scripts[$i]['src']	 = '/js/jquery.js';
+$i++;
+$scripts[$i]['type'] = 'application/javascript';
+$scripts[$i]['src']	 = '/js/bootstrap.min.js';
+$i++;
+$scripts[$i]['type'] = 'application/javascript';
+$scripts[$i]['src']	 = '/js/default.js';
+$i++;
+$scripts[$i]['type'] = 'application/javascript';
+$scripts[$i]['src']	 = '/js/bootbox.min.js';
+$i++;
+$scripts[$i]['type'] = 'application/javascript';
+$scripts[$i]['src']	 = '/js/sb-admin.js';
+$i++;
+$scripts[$i]['type'] = 'application/javascript';
+$scripts[$i]['src']	 = '/js/jquery.metisMenu.js';
+$i++;
+$scripts[$i]['type'] = 'application/javascript';
+$scripts[$i]['src']	 = '/js/jquery.dataTables.js';
+$i++;
+$scripts[$i]['type'] = 'application/javascript';
+$scripts[$i]['src']	 = '/js/dataTables.bootstrap.js';
+$i++;
+$scripts[$i]['type'] = 'application/javascript';
+$scripts[$i]['src']	 = '/js/bootstrap-switch.min.js';
+$i++;
 
-$scripts[2]['type']	 = 'application/javascript';
-$scripts[2]['src']	 = '/js/default.js';
+$links	 = array();
+$i		 = 0;
 
-$scripts[3]['type']	 = 'application/javascript';
-$scripts[3]['src']	 = '/js/bootbox.min.js';
-
-$scripts[4]['type']	 = 'application/javascript';
-$scripts[4]['src']	 = '/js/sb-admin.js';
-
-$scripts[5]['type']	 = 'application/javascript';
-$scripts[5]['src']	 = '/js/jquery.metisMenu.js';
-
-$scripts[6]['type']	 = 'application/javascript';
-$scripts[6]['src']	 = '/js/jquery.dataTables.js';
-
-$scripts[7]['type']	 = 'application/javascript';
-$scripts[7]['src']	 = '/js/dataTables.bootstrap.js';
-
-$links				 = array();
-$links[0]['href']	 = '/css/bootstrap.css';
-$links[0]['rel']	 = 'stylesheet';
-$links[0]['type']	 = 'application/css';
-
-$links[1]['href']	 = '/css/font-awesome.min.css';
-$links[1]['rel']	 = 'stylesheet';
-$links[1]['type']	 = 'application/css';
-
-$links[2]['href']	 = '/css/default.css';
-$links[2]['rel']	 = 'stylesheet';
-$links[2]['type']	 = 'application/css';
-
-$links[3]['href']	 = '/css/sb-admin.css';
-$links[3]['rel']	 = 'stylesheet';
-$links[3]['type']	 = 'application/css';
-
-$links[4]['href']	 = '/css/dataTables.bootstrap.css';
-$links[4]['rel']	 = 'stylesheet';
-$links[4]['type']	 = 'application/css';
-
+$links[$i]['href']	 = '/css/bootstrap.css';
+$links[$i]['rel']	 = 'stylesheet';
+$links[$i]['type']	 = 'application/css';
+$i++;
+$links[$i]['href']	 = '/css/font-awesome.min.css';
+$links[$i]['rel']	 = 'stylesheet';
+$links[$i]['type']	 = 'application/css';
+$i++;
+$links[$i]['href']	 = '/css/default.css';
+$links[$i]['rel']	 = 'stylesheet';
+$links[$i]['type']	 = 'application/css';
+$i++;
+$links[$i]['href']	 = '/css/sb-admin.css';
+$links[$i]['rel']	 = 'stylesheet';
+$links[$i]['type']	 = 'application/css';
+$i++;
+$links[$i]['href']	 = '/css/dataTables.bootstrap.css';
+$links[$i]['rel']	 = 'stylesheet';
+$links[$i]['type']	 = 'application/css';
+$i++;
+$links[$i]['href']	 = '/css/bootstrap-switch.min.css';
+$links[$i]['rel']	 = 'stylesheet';
+$links[$i]['type']	 = 'application/css';
+$i++;
 
 $config = array(
 	'scripts'	=>$scripts,

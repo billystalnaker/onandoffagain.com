@@ -6,7 +6,53 @@ class Api extends LF_Controller{
 	public function __construct(){
 		parent::__construct();
 	}
-	public function get_markers($id = 0, $ajax = true){
+	public function get_defects($id = 0, $local = true){
+		$this->load->model('modules');
+		if($id <= 0){
+			$defects = $this->modules->get_defects(true);
+		}else{
+			$defects = $this->modules->get_defect($id, true);
+		}
+		$json = array();
+		foreach($defects as $k=> $defect){
+			foreach($defect as $key=> $v){
+				switch($key){
+					default:
+						$json[$k][$key] = $v;
+						break;
+				}
+			}
+		}
+		if($local){
+			$this->output
+					->set_content_type('application/json')
+					->set_output(json_encode($json));
+		}
+		return $json;
+	}
+	public function get_st_light_defects($id = 0, $local = true){
+		$this->load->model('modules');
+		if($id <= 0){
+			return false;
+		}
+		$sql_select			 = array('defect_id');
+		$sql_where			 = array('st_light_id'=>$id);
+		$st_light_defects	 = $this->get_st_light_defects($sql_select, $sql_where)->result_array();
+
+		// For the purposes of the example demo view, create an array of ids for all the privileges that have been assigned to a privilege group.
+		// The array can then be used within the view to check whether the group has a specific privilege, this data allows us to then format form input values accordingly.
+		$json = array();
+		foreach($st_light_defects as $st_light_defect){
+			$json[] = $st_light_defect['defect_id'];
+		}
+		if($local){
+			$this->output
+					->set_content_type('application/json')
+					->set_output(json_encode($json));
+		}
+		return $json;
+	}
+	public function get_markers($id = 0, $local = true){
 		$this->load->model('modules');
 		if($id <= 0){
 			$lights = $this->modules->get_st_lights(true);
@@ -49,7 +95,7 @@ class Api extends LF_Controller{
 				}
 			}
 		}
-		if($ajax){
+		if($local){
 			$this->output
 					->set_content_type('application/json')
 					->set_output(json_encode($json));
@@ -78,7 +124,10 @@ class Api extends LF_Controller{
 				->set_content_type('application/json');
 		$ret	 = false;
 		if($post	 = $this->input->post()){
-			$ret = $this->modules->insert_st_light(true);
+			$id = $this->modules->insert_st_light(true);
+			if($id){
+				$ret = $this->modules->update_st_light_defect($id, true);
+			}
 		}
 		$this->output
 				->set_output($ret);

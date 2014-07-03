@@ -49,13 +49,16 @@
     </div>
 </div>
 <div class="js_var">
-	<?php echo $this->load->view('module/st_light/add', $this->data, true) ?>
-	<?php echo $this->load->view('module/st_light/edit', $this->data, true) ?>
+	<?php echo $this->load->view('module/st_light/add', $this->data, true); ?>
+	<?php echo $this->load->view('module/st_light/edit', $this->data, true); ?>
+	<?php echo $this->load->view('module/st_light_defect/edit_dynamic', $this->data, true); ?>
 </div>
 <!--<img src="http://onandoffagain.com/landfall/public/img/map-pin-green-md.png"/>-->
 <span id="marker_get_api_url" class="js_var"><?php echo site_url('api/get_markers') ?></span>
 <span id="marker_update_api_url" class="js_var"><?php echo site_url('api/update_marker') ?></span>
 <span id="marker_insert_api_url" class="js_var"><?php echo site_url('api/insert_marker') ?></span>
+<span id="defect_get_api_url" class="js_var"><?php echo site_url('api/get_defects') ?></span>
+<span id="st_light_defect_get_api_url" class="js_var"><?php echo site_url('api/get_st_light_defects') ?></span>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0489Z_hDDbhW86dMxnMe8Fu0tAt9COys" type="text/javascript"></script>
 <script type="text/javascript">
 	var markers=[];
@@ -70,9 +73,9 @@
 			var mouseLocation=event.latLng;
 			$(".insert_st_light_lat_loc").attr('value', mouseLocation.lat());
 			$(".insert_st_light_long_loc").attr('value', mouseLocation.lng());
-			$(".insert_st_light_form .col-md-6").removeClass('col-md-6').addClass('col-md-12');
+			$(".insert_st_light_form .col-md-6").removeClass('col-md-6').addClass('col-md-12').append($('.dynamic_st_light_defect').clone(true, true));
 			$(".insert_st_light_form #insert_st_light_submit").hide();
-			var modal_div=$('<div></div>').append($('.insert_st_light_form').clone());
+			var modal_div=$('<div></div>').append($('.insert_st_light_form').clone(true, true));
 			bootbox.dialog({
 				message: modal_div.html(),
 				title: 'Add a St. Light?',
@@ -100,7 +103,7 @@
 											delete element.position;
 											$.extend(true, marker, element);
 											markers.push(marker);
-											add_st_light_update_event_listener(marker);
+											add_st_light_marker_event_listener(marker);
 										});
 									});
 								}else{
@@ -131,13 +134,13 @@
 			});
 		});
 		$.each(markers, function(index, element){
-			add_st_light_update_event_listener(element);
+			add_st_light_marker_event_listener(element);
 		});
 		$.ajaxSetup({
 			async: true
 		});
 	}
-	function add_st_light_update_event_listener(element){
+	function add_st_light_marker_event_listener(element){
 		google.maps.event.addListener(element, 'click', function(){
 			$(".update_st_light_defect option").each(function(){
 				if($(this).val()==element.defect_id){
@@ -154,7 +157,18 @@
 					$(this).attr('selected', false);
 				}
 			});
-			$(".update_st_light_form .col-md-6").removeClass('col-md-6').addClass('col-md-12');
+			$(".update_st_light_form .col-md-6").removeClass('col-md-6').addClass('col-md-12').append($('.dynamic_st_light_defect').clone(true, true));
+			$.post('/landfall/api/get_s', function(st_light_defects){
+				$.post($('#defect_get_api_url').text(), function(data){
+					console.log(st_light_defects);
+					var current_status=1;
+					var new_status=true;
+					$.each(data, function(index, element){
+						$('.update_st_light_form  input[name="update['+element.id+'][current_status]"]').attr('value', current_status);
+						$('.update_st_light_form   input[name="update['+element.id+'][new_status]"]').prop('checked', new_status);
+					});
+				});
+			});
 			$(".update_st_light_form #update_st_light_submit").hide();
 			$(".update_st_light_desc").attr('value', element.description);
 			$(".update_st_light_location").attr('value', element.location);

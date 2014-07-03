@@ -298,10 +298,10 @@ class Module extends LF_Controller{
 		$this->$report();
 	}
 	private function _st_light_map(){
-		$defects			 = $this->db->get('defect')->result_array();
-		$defect_options		 = array();
-		$defect_options['']	 = 'Please Select...';
-		foreach($defects as $defect){
+		$this->data['defects']	 = $this->db->get('defect')->result_array();
+		$defect_options			 = array();
+		$defect_options['']		 = 'Please Select...';
+		foreach($this->data['defects'] as $defect){
 			$defect_options[$defect['id']] = $defect['name'];
 		}
 		$this->data['defect_options']	 = $defect_options;

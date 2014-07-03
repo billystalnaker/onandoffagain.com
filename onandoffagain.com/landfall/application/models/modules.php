@@ -57,10 +57,14 @@ class Modules extends LF_Model{
 		}
 		$this->data['st_lights'] = $this->db->select($sql_select)->get('st_light')->result_array();
 	}
-	function get_defects(){
+	function get_defects($ajax = false){
 // Select user data to be displayed.
-		$sql_select				 = array('id', 'name', 'description', 'defect_type_id', 'active');
-		$this->data['defects']	 = $this->db->select($sql_select)->get('defect')->result_array();
+		$sql_select	 = array('id', 'name', 'description', 'defect_type_id', 'active');
+		$defects	 = $this->db->select($sql_select)->get('defect')->result_array();
+		if($ajax){
+			return $defects;
+		}
+		$this->data['defects'] = $defects;
 	}
 	function get_defect_types($defect_type_id = 0){
 		$sql_select = array('id', 'name', 'flag_color');
@@ -88,9 +92,12 @@ class Modules extends LF_Model{
 		}
 		$this->data['st_light'] = array_shift($this->db->where($filters)->get('st_light')->result_array());
 	}
-	function get_defect($defect_id){
-		$filters				 = array('id'=>$defect_id);
-		$this->data['defect']	 = array_shift($this->db->where($filters)->get('defect')->result_array());
+	function get_defect($defect_id, $ajax = false){
+		$filters = array('id'=>$defect_id);
+		if($ajax){
+			return $defect = $this->db->where($filters)->get('defect')->result_array();
+		}
+		$this->data['defect'] = array_shift($this->db->where($filters)->get('defect')->result_array());
 	}
 	function get_user($user_id){
 		$filters[$this->flexi_auth->db_column('user_acc', 'id')] = $user_id;
@@ -489,30 +496,35 @@ class Modules extends LF_Model{
 		$this->data['message'] = (!isset($this->data['message']))?$this->session->flashdata('message'):$this->data['message'];
 	}
 	/**
-	 * update_group_privileges
-	 * Updates the privileges for a specific user group.
+	 * update_sty_light_defects
+	 * Updates the defects for a specific st light.
 	 */
-	function update_st_light_defect($st_light_id){
-		// Update privileges.
+	function update_st_light_defect($st_light_id, $ajax = false){
+		// Update t_light defects.
 
 		if($this->input->post('update_st_light_defect')){
+			$ret = true;
 			foreach($this->input->post('update') as $row){
 				if($row['current_status'] != $row['new_status']){
 					// Insert new st_light_defect.
 					if($row['new_status'] == 1){
-						$this->insert_st_light_defect($st_light_id, $row['id']);
+						$tmp = $this->insert_st_light_defect($st_light_id, $row['id']);
+						$ret = (!$ret)?false:$tmp;
 					}
 					// Delete existing st_light_defect.
 					else{
-						$sql_where = array(
+						$sql_where	 = array(
 							'st_light_id'	=>$st_light_id,
 							'defect_id'		=>$row['id']
 						);
-						$this->delete_st_light_defect($sql_where);
+						$tmp		 = $this->delete_st_light_defect($sql_where);
+						$ret		 = (!$ret)?false:$tmp;
 					}
 				}
 			}
-
+			if($ajax){
+				return $ret;
+			}
 			// Save any public or admin status or error messages to CI's flash session data.
 			$this->session->set_flashdata('message', $this->flexi_auth->get_messages());
 
@@ -1005,7 +1017,6 @@ class Modules extends LF_Model{
 	}
 	public function get_st_light_defects($sql_select, $sql_where){
 		// Set any custom defined SQL statements.
-		$this->flexi_auth_lite_model->set_custom_sql_to_db($sql_select, $sql_where);
 
 		return $this->db->select($sql_select)
 						->from('st_light_defect')
