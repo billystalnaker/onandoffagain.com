@@ -158,7 +158,7 @@
 				}
 			});
 			$(".update_st_light_form .col-md-6").removeClass('col-md-6').addClass('col-md-12').append($('.dynamic_st_light_defect').clone(true, true));
-			$.post('/landfall/api/get_s', function(st_light_defects){
+			$.post('/landfall/api/get_st_light_defects/'+element.id, function(st_light_defects){
 				$.post($('#defect_get_api_url').text(), function(data){
 					console.log(st_light_defects);
 					var current_status=1;
