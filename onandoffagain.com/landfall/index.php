@@ -29,17 +29,17 @@ define('ENVIRONMENT', 'development');
 
 if(defined('ENVIRONMENT')){
     switch(ENVIRONMENT){
-	case 'development':
-	    error_reporting(E_ALL);
-	    break;
+        case 'development':
+            error_reporting(E_ALL);
+            break;
 
-	case 'testing':
-	case 'production':
-	    error_reporting(0);
-	    break;
+        case 'testing':
+        case 'production':
+            error_reporting(0);
+            break;
 
-	default:
-	    exit('The application environment is not set correctly.');
+        default:
+            exit('The application environment is not set correctly.');
     }
 }
 
@@ -158,6 +158,9 @@ define('EXT', '.php');
 // Path to the system folder
 define('BASEPATH', str_replace("\\", "/", $system_path));
 
+// Path to the FPDF fonts
+define('FPDF_FONTPATH', 'public/fonts/font/');
+
 // Path to the front controller (this file)
 define('FCPATH', str_replace(SELF, '', __FILE__));
 
@@ -170,7 +173,7 @@ if(is_dir($application_folder)){
     define('APPPATH', $application_folder.'/');
 }else{
     if(!is_dir(BASEPATH.$application_folder.'/')){
-	exit("Your application folder path does not appear to be set correctly. Please open the following file and correct this: ".SELF);
+        exit("Your application folder path does not appear to be set correctly. Please open the following file and correct this: ".SELF);
     }
 
     define('APPPATH', BASEPATH.$application_folder.'/');
