@@ -1,7 +1,6 @@
 <?php
 
-if(!defined('BASEPATH'))
-    exit('No direct script access allowed');
+if(!defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -30,45 +29,43 @@ if(!defined('BASEPATH'))
  * @link		http://codeigniter.com/user_guide/general/controllers.html
  */
 class LF_Controller extends CI_Controller{
+	public $data = array();
+	private $class_key;
+	private $task_key;
+	/**
+	 * Constructor
+	 */
+	public function __construct(){
+		parent::__construct();
+		$this->class_key		 = $this->router->fetch_class();
+		$this->task_key			 = $this->router->fetch_method();
+		$this->data['class_key'] = $this->class_key;
+		$this->data['task_key']	 = $this->task_key;
 
-    public $data = array();
-    private $class_key;
-    private $task_key;
+		// IMPORTANT! This global must be defined BEFORE the flexi auth library is loaded!
+		// It is used as a global that is accessible via both models and both libraries, without it, flexi auth will not work.
+		$this->auth				 = new stdClass;
+		// Load 'standard' flexi auth library by default.
+		$this->load->library('flexi_auth');
+		$is_logged				 = $this->flexi_auth->is_logged_in();
+		$this->data['is_logged'] = $is_logged;
+		$this->data['message']	 = $this->session->flashdata('message');
+		if($is_logged){
+			$session_data			 = $this->session->userdata('flexi_auth');
+			define('USER_ID', $session_data['user_id']);
+			$this->data['user_info'] = $session_data['user_info'];
+		}elseif($this->class_key != 'account'){
+			redirect('account');
+		}
 
-    /**
-     * Constructor
-     */
-    public function __construct(){
-	parent::__construct();
-	$this->class_key	 = $this->router->fetch_class();
-	$this->task_key		 = $this->router->fetch_method();
-	$this->data['class_key'] = $this->class_key;
-	$this->data['task_key']	 = $this->task_key;
-
-	// IMPORTANT! This global must be defined BEFORE the flexi auth library is loaded!
-	// It is used as a global that is accessible via both models and both libraries, without it, flexi auth will not work.
-	$this->auth		 = new stdClass;
-	// Load 'standard' flexi auth library by default.
-	$this->load->library('flexi_auth');
-	$is_logged		 = $this->flexi_auth->is_logged_in();
-	$this->data['is_logged'] = $is_logged;
-	$this->data['message']	 = $this->session->flashdata('message');
-	if($is_logged){
-	    $session_data		 = $this->session->userdata('flexi_auth');
-	    define('USER_ID', $session_data['user_id']);
-	    $this->data['user_info'] = $session_data['user_info'];
-	}elseif($this->class_key != 'account'){
-	    redirect('account');
-	}
-
-	//possible way of doing it later on?
+		//possible way of doing it later on?
 //		$has_access = true;
 //		if(!$has_access){
 //			log_message('info', "User {user id goes here} tried to access  {$this->class_key}_$this->task_key.");
 //			redirect('restricted');
 //		}
-	log_message('debug', "Controller Class ({$this->class_key}_$this->task_key) Initialized");
-    }
+		log_message('debug', "Controller Class ({$this->class_key}_$this->task_key) Initialized");
+	}
 }
 
 // END Controller class
