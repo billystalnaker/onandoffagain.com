@@ -29,7 +29,7 @@
 <span id="marker_insert_api_url" class="js_var"><?php echo site_url('api/insert_marker') ?></span>
 <span id="defect_get_api_url" class="js_var"><?php echo site_url('api/get_defects') ?></span>
 <span id="st_light_defect_get_api_url" class="js_var"><?php echo site_url('api/get_st_light_defects') ?></span>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0489Z_hDDbhW86dMxnMe8Fu0tAt9COys" type="text/javascript"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<?php echo $this->config->item('google_maps_api_key'); ?>" type="text/javascript"></script>
 <script type="text/javascript">
     var markers = [];
     $(function() {
