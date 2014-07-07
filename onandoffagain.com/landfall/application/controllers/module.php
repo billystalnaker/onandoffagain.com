@@ -296,23 +296,28 @@ class Module extends LF_Controller{
 	    redirect('home/dashboard');
 	}
 	$this->load->model('modules');
+	$defects	 = $this->db->get('defect')->result_array();
+	$defect_options	 = array();
+	foreach($defects as $defect){
+	    $defect_options[$defect['id']] = $defect['name'];
+	}
+	$this->data['defects'] = $defect_options;
+
+	$defect_types		 = $this->db->get('defect_type')->result_array();
+	$defect_type_options	 = array();
+	foreach($defect_types as $defect_type){
+	    $defect_type_options[$defect_type['id']] = $defect_type['name'];
+	}
+	$this->data['defect_types'] = $defect_type_options;
 	$this->$report();
     }
     private function _st_light_map(){
-	$this->data['defects']	 = $this->db->get('defect')->result_array();
-	$defect_options		 = array();
-	$defect_options['']	 = 'Please Select...';
-	foreach($this->data['defects'] as $defect){
-	    $defect_options[$defect['id']] = $defect['name'];
-	}
-	$this->data['defect_options']	 = $defect_options;
-	$this->data['message']		 = (!isset($this->data['message']))?$this->session->flashdata('message'):$this->data['message'];
-	$this->data['content']		 = $this->load->view('module/reports/st_light_map', $this->data, true);
+	$this->data['message']	 = (!isset($this->data['message']))?$this->session->flashdata('message'):$this->data['message'];
+	$this->data['content']	 = $this->load->view('module/reports/st_light_map', $this->data, true);
 
 	$this->load->view('tpl/structure', $this->data);
     }
     private function _st_light_report(){
-	$this->load->model('modules');
 	$this->modules->get_st_light_report();
 	$this->data['content'] = $this->load->view('module/reports/st_light_report', $this->data, true);
 	$this->load->view('tpl/structure', $this->data);

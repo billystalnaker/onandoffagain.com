@@ -1038,9 +1038,16 @@ class Modules extends LF_Model{
     }
     public function get_st_light_report(){
 	if($this->input->post()){
-	    $where		 = ['sl.active !='=>'y'];
-	    $or_where	 = ['(SELECT count(id) FROM st_light_defect) >'=>0];
-	    $st_light_ids	 = $this->db->select(['sl.id', 'sld.defect_id', 'sld.comment'])->join('st_light_defect sld', 'sl.id = sld.st_light_id', 'LEFT')->where($where)->or_where($or_where)->get('st_light sl')->result_array();
+	    $show_defects		 = $this->input->post('show_defects');
+	    $where			 = [];
+	    $where['sl.active !=']	 = 'y';
+	    $or_where		 = ['(SELECT count(id) FROM st_light_defect) >'=>0];
+	    $this->db->select(['sl.id', 'sld.defect_id', 'sld.comment'])->join('st_light_defect sld', 'sl.id = sld.st_light_id', 'LEFT')->where($where)->or_where($or_where);
+	    if(is_array($show_defects)){
+		//$this->db->having('A.Y = "frontend"', null, false);
+		$this->db->having('sld.defect_id IN'."(".implode(',', $show_defects).")", null, FALSE);
+	    }
+	    $st_light_ids	 = $this->db->get('st_light sl')->result_array();
 	    $st_lights	 = [];
 	    foreach($st_light_ids as $st_light){
 		$st_lights[$st_light['id']][$st_light['defect_id']] = $st_light['comment'];

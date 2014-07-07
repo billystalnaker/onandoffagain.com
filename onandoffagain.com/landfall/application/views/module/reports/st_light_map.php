@@ -177,7 +177,4 @@
 	    });
 	});
     }
-    function which_icon(defect_id) {
-
-    }
 </script>
