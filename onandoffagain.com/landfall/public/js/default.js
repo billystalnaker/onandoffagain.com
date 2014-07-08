@@ -30,7 +30,7 @@ $(function(){
 			selected='st_light';
 		}
 		search_params=$('#search_params').val();
-		redirect('/search/'+selected+'/'+search_params);
+		redirect('/landfall/search/'+selected+'/'+search_params);
 	});
 	if(typeof ($('#data_table'))!=='undefined'){
 		$('#data_table').dataTable();

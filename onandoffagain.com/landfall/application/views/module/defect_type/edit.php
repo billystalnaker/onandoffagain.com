@@ -14,7 +14,8 @@ if(!empty($message)){
 
 <?php echo validation_errors("<div class='row'> <div class='alert alert-danger col-md-6'>", "</div><div class='col-md-6'></div></div>"); ?>
 
-<form action="<?php echo current_url(); ?>" method="POST">
+<form action="<?php echo site_url('/module/defect_types/edit/'.$defect_type['id']);
+; ?>" method="POST">
     <div class="container">
         <div class="row">
             <div class="col-md-6">

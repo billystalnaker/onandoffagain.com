@@ -64,7 +64,7 @@
 									<?php if($this->flexi_auth->is_privileged('Groups')){ ?>
 										<li data-choice="user_groups"><a href="#">Groups</a></li>
 									<?php } ?>
-									<?php if($this->flexi_auth->is_privileged('St. Lights')){ ?>
+									<?php if($this->flexi_auth->is_privileged('St Lights')){ ?>
 										<li data-choice="st_light"><a href="#">St. Lights</a></li>
 									<?php } ?>
 									<?php if($this->flexi_auth->is_privileged('Defects')){ ?>

@@ -14,7 +14,7 @@ if(!empty($message)){
 
 <?php echo validation_errors("<div class='row'> <div class='alert alert-danger col-md-6'>", "</div><div class='col-md-6'></div></div>"); ?>
 
-<form action="<?php echo current_url(); ?>" method="POST"class="update_st_light_form">
+<form action="<?php echo site_url('/module/st_lights/edit/'.$st_light['id']); ?>" method="POST"class="update_st_light_form">
 	<div class="row">
 		<div class="col-md-6">
 			<div class="form-group row">
