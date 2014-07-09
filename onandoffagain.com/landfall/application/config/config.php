@@ -1,6 +1,7 @@
 <?php
 
-if(!defined('BASEPATH')) exit('No direct script access allowed');
+if(!defined('BASEPATH'))
+    exit('No direct script access allowed');
 
 /*
   |--------------------------------------------------------------------------
@@ -156,10 +157,10 @@ $config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
   | use segment based URLs.
   |
  */
-$config['allow_get_array']		 = TRUE;
+$config['allow_get_array']	 = TRUE;
 $config['enable_query_strings']	 = FALSE;
 $config['controller_trigger']	 = 'c';
-$config['function_trigger']		 = 'm';
+$config['function_trigger']	 = 'm';
 $config['directory_trigger']	 = 'd'; // experimental not currently in use
 
 /*
@@ -246,13 +247,13 @@ $config['encryption_key'] = 'landfall_sessions';
   | 'sess_time_to_update'		= how many seconds between CI refreshing Session Information
   |
  */
-$config['sess_cookie_name']		 = 'ci_session';
-$config['sess_expiration']		 = 7200;
+$config['sess_cookie_name']	 = 'ci_session';
+$config['sess_expiration']	 = 7200;
 $config['sess_expire_on_close']	 = FALSE;
 $config['sess_encrypt_cookie']	 = FALSE;
 $config['sess_use_database']	 = FALSE;
-$config['sess_table_name']		 = 'sessions';
-$config['sess_match_ip']		 = FALSE;
+$config['sess_table_name']	 = 'sessions';
+$config['sess_match_ip']	 = FALSE;
 $config['sess_match_useragent']	 = TRUE;
 $config['sess_time_to_update']	 = 300;
 $config['sess_use_database']	 = TRUE;
@@ -374,72 +375,79 @@ $config['google_maps_api_key'] = 'AIzaSyA0489Z_hDDbhW86dMxnMe8Fu0tAt9COys';
 $search_fields['user_accounts']		 = ['upro_first_name', 'upro_last_name', 'uacc_email', 'uacc_username'];
 $search_fields['user_groups']		 = ['ugrp_name', 'ugrp_desc'];
 $search_fields['user_privileges']	 = ['upriv_name', 'upriv_desc'];
-$search_fields['st_light']			 = ['description', 'location'];
-$search_fields['defect']			 = ['name', 'description'];
-$search_fields['defect_type']		 = ['name', 'description'];
+$search_fields['st_light']		 = ['description', 'location'];
+$search_fields['defect']		 = ['name', 'description'];
+$search_fields['defect_type']		 = ['name'];
 
-$view_vars['user_accounts']		 = ['select'=>[
-		[
-			'table'		=>'user_groups',
-			'data_key'	=>'group_options',
-			'value'		=>'ugrp_id',
-			'display'	=>'ugrp_name'
-		]
+$view_vars['user_accounts']	 = ['select'=>[
+	[
+	    'table'		=>'user_groups',
+	    'data_key'	=>'group_options',
+	    'value'		=>'ugrp_id',
+	    'display'	=>'ugrp_name'
 	]
+    ]
 ];
-$view_vars['defect']			 = ['select'=>[
-		[
-			'table'		=>'defect_type',
-			'data_key'	=>'defect_types',
-			'value'		=>'id',
-			'display'	=>'name'
-		]
+$view_vars['defect']		 = ['select'=>[
+	[
+	    'table'		=>'defect_type',
+	    'data_key'	=>'defect_types',
+	    'value'		=>'id',
+	    'display'	=>'name'
 	]
+    ]
 ];
-$view_vars['user_groups']		 = [];
+$view_vars['user_groups']	 = [];
 $view_vars['user_privileges']	 = [];
-$view_vars['st_light']			 = [];
-$view_vars['defect_type']		 = [];
-
+$view_vars['st_light']		 = [];
+$view_vars['defect_type']	 = [];
+$join['user_accounts']		 = [
+    [
+	'table'	=>'user_groups',
+	'cond'	=>'uacc_group_fk = user_groups.ugrp_id',
+	'how'	=>'left'
+    ]
+];
 
 
 $config['controller_table_conversion'] = [
-	'user_accounts'		=>[
-		'controller'	=>'users',
-		'id'			=>'uacc_id',
-		'search_fields'	=>$search_fields['user_accounts'],
-		'view_vars'		=>$view_vars['user_accounts']
-	],
-	'user_groups'		=>[
-		'controller'	=>'groups',
-		'id'			=>'ugrp_id',
-		'search_fields'	=>$search_fields['user_groups'],
-		'view_vars'		=>$view_vars['user_groups']
-	],
-	'user_privileges'	=>[
-		'controller'	=>'privileges',
-		'id'			=>'upriv_id',
-		'search_fields'	=>$search_fields['user_privileges'],
-		'view_vars'		=>$view_vars['user_privileges']
-	],
-	'st_light'			=>[
-		'controller'	=>'st_lights',
-		'id'			=>'id',
-		'search_fields'	=>$search_fields['st_light'],
-		'view_vars'		=>$view_vars['st_light']
-	],
-	'defect'			=>[
-		'controller'	=>'defects',
-		'id'			=>'id',
-		'search_fields'	=>$search_fields['defect'],
-		'view_vars'		=>$view_vars['defect']
-	],
-	'defect_type'		=>[
-		'controller'	=>'defect_types',
-		'id'			=>'id',
-		'search_fields'	=>$search_fields['defect_type'],
-		'view_vars'		=>$view_vars['defect_type']
-	]
+    'user_accounts'		=>[
+	'controller'	=>'users',
+	'id'		=>'uacc_id',
+	'search_fields'	=>$search_fields['user_accounts'],
+	'view_vars'	=>$view_vars['user_accounts'],
+	'join'		=>$join['user_accounts']
+    ],
+    'user_groups'		=>[
+	'controller'	=>'groups',
+	'id'		=>'ugrp_id',
+	'search_fields'	=>$search_fields['user_groups'],
+	'view_vars'	=>$view_vars['user_groups']
+    ],
+    'user_privileges'	=>[
+	'controller'	=>'privileges',
+	'id'		=>'upriv_id',
+	'search_fields'	=>$search_fields['user_privileges'],
+	'view_vars'	=>$view_vars['user_privileges']
+    ],
+    'st_light'		=>[
+	'controller'	=>'st_lights',
+	'id'		=>'id',
+	'search_fields'	=>$search_fields['st_light'],
+	'view_vars'	=>$view_vars['st_light']
+    ],
+    'defect'		=>[
+	'controller'	=>'defects',
+	'id'		=>'id',
+	'search_fields'	=>$search_fields['defect'],
+	'view_vars'	=>$view_vars['defect']
+    ],
+    'defect_type'		=>[
+	'controller'	=>'defect_types',
+	'id'		=>'id',
+	'search_fields'	=>$search_fields['defect_type'],
+	'view_vars'	=>$view_vars['defect_type']
+    ]
 ];
 /* End of file config.php */
 /* Location: ./application/config/config.php */

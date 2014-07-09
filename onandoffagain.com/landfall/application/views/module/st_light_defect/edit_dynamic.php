@@ -25,7 +25,10 @@
     			    <input type="hidden" name="update[<?php echo $defect['id']; ?>][new_status]" value="0"/>
     			    <input class="update_st_light_defect_new_status" type="checkbox" name="update[<?php echo $defect['id']; ?>][new_status]" value="1" /><!--echo $new_status -->
     			</td>
-    			<td><textarea cols="50" class="update_st_light_defect_comment" name="update[<?php echo $defect['id']; ?>][comment]"></textarea></td>
+    			<td>
+    			    <textarea cols="50" class="update_st_light_defect_new_comment" name="update[<?php echo $defect['id']; ?>][new_comment]"></textarea>
+    			    <input type="hidden" class="update_st_light_defect_current_comment" name="update[<?php echo $defect['id']; ?>][current_comment]"/>
+    			</td>
     		    </tr>
 		    <?php } ?>
                 </tbody>

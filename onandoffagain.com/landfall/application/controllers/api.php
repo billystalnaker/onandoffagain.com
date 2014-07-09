@@ -27,8 +27,8 @@ class Api extends LF_Controller{
 	}
 	if($ajax){
 	    $this->output
-		    ->set_content_type('application/json')
-		    ->set_output(json_encode($json));
+		->set_content_type('application/json')
+		->set_output(json_encode($json));
 	}
 	return $json;
     }
@@ -49,8 +49,8 @@ class Api extends LF_Controller{
 	}
 	if($ajax){
 	    $this->output
-		    ->set_content_type('application/json')
-		    ->set_output(json_encode($json));
+		->set_content_type('application/json')
+		->set_output(json_encode($json));
 	}
 	return $json;
     }
@@ -84,7 +84,7 @@ class Api extends LF_Controller{
 			    foreach($st_light_defects as $st_light_defect){
 				$defect		 = $this->modules->get_defect($st_light_defect['defect_id'], true);
 				$this->modules->get_defect_types($defect['defect_type_id']);
-				$flag_colors[]	 = $this->data['defect_type'][0]['flag_color'];
+				$flag_colors[]	 = $this->data['defect_type']['flag_color'];
 			    }
 			}
 			$flag_color = '';
@@ -104,15 +104,15 @@ class Api extends LF_Controller{
 	}
 	if($ajax){
 	    $this->output
-		    ->set_content_type('application/json')
-		    ->set_output(json_encode($json));
+		->set_content_type('application/json')
+		->set_output(json_encode($json));
 	}
 	return $json;
     }
     public function update_marker(){
 	$this->load->model('modules');
 	$this->output
-		->set_content_type('application/json');
+	    ->set_content_type('application/json');
 	$ret	 = false;
 	if($post	 = $this->input->post()){
 	    if($this->input->post('st_light_id') > 0){
@@ -124,12 +124,12 @@ class Api extends LF_Controller{
 	    }
 	}
 	$this->output
-		->set_output($ret);
+	    ->set_output($ret);
     }
     public function insert_marker(){
 	$this->load->model('modules');
 	$this->output
-		->set_content_type('application/json');
+	    ->set_content_type('application/json');
 	$ret	 = false;
 	if($post	 = $this->input->post()){
 	    $id = $this->modules->insert_st_light(true);
@@ -139,7 +139,7 @@ class Api extends LF_Controller{
 	    }
 	}
 	$this->output
-		->set_output($ret);
+	    ->set_output($ret);
     }
 }
 
