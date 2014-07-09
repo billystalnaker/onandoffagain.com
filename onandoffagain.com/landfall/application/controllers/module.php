@@ -14,7 +14,7 @@ class Module extends LF_Controller{
 	    //set flashdata sayign you must have id in order to edit
 	    redirect('module/users/view');
 	}
-	if(!$this->flexi_auth->is_privileged('Users') || !$this->flexi_auth->is_privileged(ucfirst($action).' Users')){
+	if(!$this->flexi_auth->is_privileged('Users') || !$this->flexi_auth->is_privileged(ucfirst($action).' Users') || USER_ID === $id){
 	    //set flashdata saying you dont have access to this
 	    redirect('home/dashboard');
 	}

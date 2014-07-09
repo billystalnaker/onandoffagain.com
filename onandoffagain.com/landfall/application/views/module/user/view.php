@@ -13,7 +13,9 @@
 
 <div class="row">
     <div class="col-lg-12">
-	<a href="<?php echo site_url('module/users/add') ?>" >Add a user...</a>
+	<?php if($this->flexi_auth->is_privileged('Add Users')){ ?>
+    	<a href="<?php echo site_url('module/users/add') ?>" >Add a user...</a>
+	<?php } ?>
 	<div class="panel panel-default">
 	    <div class="panel-heading">
 		Users
@@ -39,9 +41,13 @@
 				    <?php foreach($users as $user){ ?>
 					<tr>
 					    <td>
-						<a href="<?php echo site_url("module/users/edit/".$user[$this->flexi_auth->db_column('user_acc', 'id')]); ?>">
+						<?php if($this->flexi_auth->is_privileged('Edit Users')){ ?>
+	    					<a href="<?php echo site_url("module/users/edit/".$user[$this->flexi_auth->db_column('user_acc', 'id')]); ?>">
+							<?php echo $user[$this->flexi_auth->db_column('user_acc', 'username')]; ?>
+	    					</a>
+						<?php }else{ ?>
 						    <?php echo $user[$this->flexi_auth->db_column('user_acc', 'username')]; ?>
-						</a>
+						<?php } ?>
 					    </td>
 					    <td>
 						<?php echo $user[$this->flexi_auth->db_column('user_acc', 'email')]; ?>
@@ -56,7 +62,11 @@
 						<?php echo $user[$this->flexi_auth->db_column('user_group', 'name')]; ?>
 					    </td>
 					    <td class="align_ctr">
-						<a href="<?php echo site_url("module/user_privileges/".$user[$this->flexi_auth->db_column('user_acc', 'id')]); ?>">Manage</a>
+						<?php if($this->flexi_auth->is_privileged('User Privileges')){ ?>
+	    					<a href="<?php echo site_url("module/user_privileges/".$user[$this->flexi_auth->db_column('user_acc', 'id')]); ?>">Manage</a>
+						<?php }else{ ?>
+	    					<small>Not Privileged</small>
+						<?php } ?>
 					    </td>
 					    <td class="align_ctr">
 						<?php if($this->flexi_auth->is_privileged('Delete Users')){ ?>
