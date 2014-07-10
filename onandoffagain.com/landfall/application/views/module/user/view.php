@@ -33,6 +33,7 @@
 				    <th>Last Name</th>
 				    <th>Group</th>
 				    <th>Privileges</th>
+				    <th>Reset Password</th>
 				    <th>Delete</th>
 				</tr>
 			    </thead>
@@ -67,6 +68,9 @@
 						<?php }else{ ?>
 	    					<small>Not Privileged</small>
 						<?php } ?>
+					    </td>
+					    <td>
+						<span data-identifier="<?php echo $user[$this->flexi_auth->db_column('user_acc', 'username')]; ?>" class="btn btn-link reset-password">Reset Password</span>
 					    </td>
 					    <td class="align_ctr">
 						<?php if($this->flexi_auth->is_privileged('Delete Users')){ ?>

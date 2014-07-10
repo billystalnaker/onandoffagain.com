@@ -1,14 +1,14 @@
 <?php if(!empty($message)){ ?>
-	<div id="message">
-		<?php echo $message; ?>
-	</div>
+    <div id="message">
+	<?php echo $message; ?>
+    </div>
 <?php } ?>
 
 <?php
 $attributes = array(
-	'method'=>'POST',
-	'role'	=>'form',
-	'class'	=>'form-center'
+    'method'=>'POST',
+    'role'	=>'form',
+    'class'	=>'form-center'
 );
 echo form_open(current_url(), $attributes);
 ?>
@@ -18,6 +18,7 @@ echo form_open(current_url(), $attributes);
 <label class="checkbox">
     <input name="remember_me" type="checkbox" value="1"  <?php echo set_checkbox('remember_me', 1); ?>> Remember me
 </label>
+<a href="<?php echo site_url('account/forgotten_password') ?>">Forgot your password?</a>
 <input type="submit" name="login_user" class="btn btn-lg btn-primary btn-block" value="Sign In"/>
 <?php
 echo form_close();

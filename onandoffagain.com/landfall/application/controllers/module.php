@@ -14,7 +14,7 @@ class Module extends LF_Controller{
 	    //set flashdata sayign you must have id in order to edit
 	    redirect('module/users/view');
 	}
-	if(!$this->flexi_auth->is_privileged('Users') || !$this->flexi_auth->is_privileged(ucfirst($action).' Users') || USER_ID === $id){
+	if(!$this->flexi_auth->is_privileged('Users') || !$this->flexi_auth->is_privileged(ucfirst($action).' Users') || USER_ID !== $id){
 	    //set flashdata saying you dont have access to this
 	    redirect('home/dashboard');
 	}
@@ -296,6 +296,7 @@ class Module extends LF_Controller{
 	$this->load->model('modules');
 	$defects		 = $this->db->get('defect')->result_array();
 	$this->data['defects']	 = $defects;
+	$this->modules->make_select('report', 'defect');
 	$defect_types		 = $this->db->get('defect_type')->result_array();
 	$defect_type_options	 = array();
 	foreach($defect_types as $defect_type){

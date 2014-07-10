@@ -38,7 +38,7 @@ class Search extends LF_Controller{
 		foreach($cfg[$method]['view_vars']['select'] as $select){
 		    $result = $this->modules->make_select($method, $select['table']);
 		    if($result){
-			$this->data[$select['data_key']] = $result;
+			//yay
 		    }else{
 			//uh ohhh
 		    }

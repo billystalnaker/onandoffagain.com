@@ -80,7 +80,7 @@ $config['database']['user_acc']['columns']['date_added']		 = 'uacc_date_added';
 $config['database']['user_acc']['custom_columns'] = array(
     'upro_first_name',
     'upro_last_name',
-	### Example : 'date_modified', 'modified_user_id' etc.
+    ### Example : 'date_modified', 'modified_user_id' etc.
 );
 
 ###++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++###
@@ -463,7 +463,7 @@ $config['security']['database_salt_length'] = strlen($config['security']['static
  *
  * Example: Time set in minutes, 0 = unlimited, 60*24 = 24 hours, 1440 = 24 hours.
  */
-$config['security']['expire_forgotten_password'] = 15;
+$config['security']['expire_forgotten_password'] = 1440;
 
 ###++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++###
 // FAILED LOGIN ATTEMPT SETTINGS
@@ -607,7 +607,7 @@ $config['settings']['privilege_sources'] = array('user', 'group');
  */
 ###++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++###
 // Site title shown as 'from' header on emails.
-$config['email']['site_title'] = "flexi auth";
+$config['email']['site_title'] = "Landfall";
 
 // Reply email shown as 'from' header on emails.
 $config['email']['reply_email'] = "info@landfall.org";
@@ -622,7 +622,7 @@ $config['email']['email_type'] = 'html';
  * Directory where email templates are stored.
  * Default: 'includes/email/'
  */
-$config['email']['email_template_directory'] = 'includes/email/';
+$config['email']['email_template_directory'] = 'tpl/email/';
 
 /**
  * 'Activate Account' email template.
@@ -634,7 +634,7 @@ $config['email']['email_template_activate'] = 'activate_account.tpl.php';
  * 'Forgot Password' email template.
  * Default: 'forgot_password.tpl.php'
  */
-$config['email']['email_template_forgot_password'] = 'forgot_password.tpl.php';
+$config['email']['email_template_forgot_password'] = 'forgot_password.tpl';
 
 /**
  * 'Forgot Password Complete' email template.

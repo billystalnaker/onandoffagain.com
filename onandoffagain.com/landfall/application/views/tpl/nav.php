@@ -20,8 +20,9 @@
     	    <ul class="dropdown-menu dropdown-user">
     		<li><a href="<?php echo site_url("/module/users/edit/".USER_ID) ?>"><i class="fa fa-user fa-fw"></i> User Profile</a>
     		</li>
-    		<li><a href="javascript:void(0);"><i class="fa fa-gear fa-fw"></i> Settings</a>
-    		</li>
+    		<!--    		<li>
+    				    <a href="javascript:void(0);"><i class="fa fa-gear fa-fw"></i> Settings</a>
+    				</li>-->
     		<li class="divider"></li>
     		<li><a class="sign-out" href="javascript:void(0);" data-alt="<?php echo site_url('account/logout'); ?>"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
     		</li>

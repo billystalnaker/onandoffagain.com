@@ -20,8 +20,8 @@
     display:none;
 }
 li.selected{
-	background-color: #2a6496;
+    background-color: #2a6496;
 }
 li.selected>a{
-	color:white;
+    color:white;
 }

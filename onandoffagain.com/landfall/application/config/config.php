@@ -378,8 +378,10 @@ $search_fields['user_privileges']	 = ['upriv_name', 'upriv_desc'];
 $search_fields['st_light']		 = ['description', 'location'];
 $search_fields['defect']		 = ['name', 'description'];
 $search_fields['defect_type']		 = ['name'];
+$search_fields['report']		 = [];
 
-$view_vars['user_accounts']	 = ['select'=>[
+$view_vars['user_accounts']	 = [
+    'select'=>[
 	[
 	    'table'		=>'user_groups',
 	    'data_key'	=>'group_options',
@@ -388,10 +390,21 @@ $view_vars['user_accounts']	 = ['select'=>[
 	]
     ]
 ];
-$view_vars['defect']		 = ['select'=>[
+$view_vars['defect']		 = [
+    'select'=>[
 	[
 	    'table'		=>'defect_type',
 	    'data_key'	=>'defect_types',
+	    'value'		=>'id',
+	    'display'	=>'name'
+	]
+    ]
+];
+$view_vars['report']		 = [
+    'select'=>[
+	[
+	    'table'		=>'defect',
+	    'data_key'	=>'defect_options',
 	    'value'		=>'id',
 	    'display'	=>'name'
 	]
@@ -447,6 +460,12 @@ $config['controller_table_conversion'] = [
 	'id'		=>'id',
 	'search_fields'	=>$search_fields['defect_type'],
 	'view_vars'	=>$view_vars['defect_type']
+    ],
+    'report'		=>[
+	'controller'	=>'reports',
+	'id'		=>'id',
+	'search_fields'	=>$search_fields['report'],
+	'view_vars'	=>$view_vars['report']
     ]
 ];
 /* End of file config.php */

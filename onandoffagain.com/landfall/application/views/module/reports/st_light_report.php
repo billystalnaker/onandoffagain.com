@@ -37,7 +37,7 @@
 		<label class="col-md-3">Which defects would you like to display on the report?</label>
 		<div class="input-group col-md-9">
 		    <?php
-		    echo form_dropdown('show_defects[]', $defects, set_value('show_defects'), " id='show_defects' class='form-control' multiple");
+		    echo form_dropdown('show_defects[]', $defect_options, set_value('show_defects'), " id='show_defects' class='form-control' multiple");
 		    ?>
 		    <span style="margin:10px" class="btn btn-primary de-select" data-selector="#show_defects">De-Select All Defects</span>
 		</div>

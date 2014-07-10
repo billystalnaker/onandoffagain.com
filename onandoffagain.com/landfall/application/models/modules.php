@@ -54,13 +54,20 @@ class Modules extends LF_Model{
     }
     function get_privileges($return = false){
 // Select user data to be displayed.
-	$sql_select	 = array(
+	$sql_select = array(
 	    $this->flexi_auth->db_column('user_privilege', 'id'),
 	    $this->flexi_auth->db_column('user_privilege', 'name'),
 	    $this->flexi_auth->db_column('user_privilege', 'description'),
 	);
+	if(!$this->flexi_auth->is_admin()){
+	    $this->flexi_auth->sql_where('upriv_id !=', 5);
+	    $this->flexi_auth->sql_where('upriv_id !=', 6);
+	    $this->flexi_auth->sql_where('upriv_id !=', 8);
+	    $this->flexi_auth->sql_where('upriv_id !=', 12);
+	    $this->flexi_auth->sql_where('upriv_id !=', 17);
+	}
 	$this->flexi_auth->sql_select($sql_select);
-	$privileges	 = $this->flexi_auth->get_privilege_array();
+	$privileges = $this->flexi_auth->get_privilege_array();
 	if($return){
 	    return $privileges;
 	}
@@ -424,12 +431,7 @@ class Modules extends LF_Model{
 	$this->data['user']	 = $this->flexi_auth->get_users_row_array($sql_select, $sql_where);
 
 // Get all privilege data.
-	$sql_select			 = array(
-	    $this->flexi_auth->db_column('user_privileges', 'id'),
-	    $this->flexi_auth->db_column('user_privileges', 'name'),
-	    $this->flexi_auth->db_column('user_privileges', 'description')
-	);
-	$this->data['privileges']	 = $this->flexi_auth->get_privileges_array($sql_select);
+	$this->data['privileges']	 = $this->get_privileges(true);
 // Get user groups current privilege data.
 	$sql_select			 = array(
 	    $this->flexi_auth->db_column('user_privilege_groups', 'privilege_id'));
@@ -495,13 +497,8 @@ class Modules extends LF_Model{
 	    $this->flexi_auth->db_column('user_group', 'id')=>$group_id);
 	$this->data['group']	 = $this->flexi_auth->get_groups_row_array(FALSE, $sql_where);
 
-// Get all privilege data.
-	$sql_select			 = array(
-	    $this->flexi_auth->db_column('user_privileges', 'id'),
-	    $this->flexi_auth->db_column('user_privileges', 'name'),
-	    $this->flexi_auth->db_column('user_privileges', 'description')
-	);
-	$this->data['privileges']	 = $this->flexi_auth->get_privileges_array($sql_select);
+// Get all privilege data
+	$this->data['privileges'] = $this->flexi_auth->get_privileges(true);
 
 // Get data for the current privilege group.
 	$sql_select		 = array(
@@ -1123,7 +1120,8 @@ class Modules extends LF_Model{
 	    foreach($results as $result){
 		$options[$result[$cfg[$what]['view_vars']['select'][0]['value']]] = $result[$cfg[$what]['view_vars']['select'][0]['display']];
 	    }
-	    return $options;
+	    $this->data[$cfg[$what]['view_vars']['select'][0]['data_key']] = $options;
+	    return true;
 	}
 	return false;
     }

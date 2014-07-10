@@ -141,6 +141,17 @@ class Api extends LF_Controller{
 	$this->output
 	    ->set_output($ret);
     }
+    public function forgot_password(){
+	$this->output
+	    ->set_content_type('application/json');
+	$ret		 = false;
+	if($identifier	 = $this->input->post('identifier')){
+	    $ret = $this->flexi_auth->forgotten_password($identifier);
+	}
+
+	$this->output
+	    ->set_output($ret);
+    }
 }
 
 ?>
